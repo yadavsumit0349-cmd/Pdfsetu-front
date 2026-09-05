@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>PDFSetu - Smart PDF Tools</title>
+
+  <!-- Image to PDF ke liye -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --dark: #101a33;
+      --blue: #2563eb;
+      --light-blue: #eef4ff;
+      --orange: #ff8a3d;
+      --gray: #667085;
+      --border: #e5e9f0;
+      --background: #f6f8fc;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--background);
+      color: #172033;
+    }
+
+    /* HEADER */
+
+    header {
+      height: 72px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 6%;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .logo span {
+      color: var(--blue);
+    }
+
+    nav {
+      display: flex;
+      gap: 22px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #475467;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      color: var(--blue);
+    }
+
+    /* HERO */
+
+    .hero {
+      background: linear-gradient(135deg, #101a33, #284a87);
+      color: white;
+      padding: 65px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      color: #dce6ff;
+      line-height: 1.6;
+      font-size: 17px;
+    }
+
+    .search-box {
+      max-width: 580px;
+      background: white;
+      margin: 28px auto 0;
+      padding: 6px;
+      border-radius: 13px;
+      display: flex;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      padding: 13px;
+      flex: 1;
+      font-size: 15px;
+    }
+
+    .search-box button {
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 9px;
+      padding: 0 22px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* MAIN */
+
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 45px 18px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 30px;
+      color: var(--dark);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--gray);
+      margin: 10px 0 25px;
+    }
+
+    /* FILTER */
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .filter {
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .filter.active {
+      background: var(--dark);
+      color: white;
+    }
+
+    /* TOOL GRID */
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .tool-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 20px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+
+    .icon {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      background: var(--light-blue);
+      border-radius: 14px;
+      font-size: 28px;
+    }
+
+    .tool-card h3 {
+      margin: 16px 0 8px;
+      font-size: 18px;
+    }
+
+    .tool-card p {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* HOW IT WORKS */
+
+    .how-section {
+      margin-top: 55px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 25px;
+    }
+
+    .step {
+      background: white;
+      padding: 22px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .number {
+      color: var(--blue);
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .step p {
+      color: var(--gray);
+      font-size: 14px;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: var(--dark);
+      color: #d8e0ef;
+      padding: 35px 20px;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    footer h2 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    footer p {
+      font-size: 13px;
+    }
+
+    /* MODAL */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      z-index: 100;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 620px;
+      max-height: 92vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      border: none;
+      background: transparent;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .modal-box h2 {
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: var(--gray);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    /* UPLOAD */
+
+    .upload-area {
+      margin: 20px 0;
+      padding: 38px 15px;
+      text-align: center;
+      border: 2px dashed #aab8ce;
+      border-radius: 16px;
+      background: #fafcff;
+    }
+
+    .upload-area.drag {
+      border-color: var(--blue);
+      background: var(--light-blue);
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .choose-btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 20px;
+      background: var(--blue);
+      color: white;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .file-list {
+      margin: 12px 0;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .page-options {
+      display: none;
+      margin-bottom: 15px;
+    }
+
+    .page-options input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      outline: none;
+    }
+
+    .process-btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: var(--orange);
+      color: #172033;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .process-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .progress {
+      display: none;
+      height: 10px;
+      background: #e8edf5;
+      border-radius: 20px;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--blue);
+      transition: 0.4s;
+    }
+
+    .result {
+      display: none;
+      margin-top: 15px;
+      padding: 14px;
+      background: #eaf8ef;
+      color: #137333;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .warning {
+      margin-top: 15px;
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    @media(max-width: 650px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 45px 15px;
+      }
+
+      .hero h1 {
+        font-size: 31px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .search-box button {
+        padding: 0 14px;
+      }
+
+      .container {
+        padding: 30px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">PDF<span>Setu</span></div>
+
+  <nav>
+    <a onclick="scrollToTools()">All Tools</a>
+    <a onclick="showCategory('Organize')">Organize</a>
+    <a onclick="showCategory('Convert')">Convert</a>
+    <a onclick="showCategory('Edit')">Edit</a>
+  </nav>
+</header>
+
+
+<section class="hero">
+  <h1>Every PDF task, made simple.</h1>
+
+  <p>
+    Merge, split, convert, organize and manage your PDF files
+    with one simple and professional workspace.
+  </p>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="search"
+      placeholder="Search a tool... e.g. Merge PDF"
+      oninput="renderTools()"
+    >
+    <button onclick="renderTools()">Search</button>
+  </div>
+</section>
+
+
+<main class="container" id="tools">
+
+  <h2 class="title">PDF Tools</h2>
+  <p class="subtitle">
+    Choose a tool and start working with your files.
+  </p>
+
+
+  <div class="filters">
+    <button class="filter active"
+      onclick="setCategory('All', this)">
+      All
+    </button>
+
+    <button class="filter"
+      onclick="setCategory('Organize', this)">
+      Organize
+    </button>
+
+    <button class="filter"
+      onclick="setCategory('Convert', this)">
+      Convert
+    </button>
+
+    <button class="filter"
+      onclick="setCategory('Edit', this)">
+      Edit
+    </button>
+
+    <button class="filter"
+      onclick="setCategory('Security', this)">
+      Security
+    </button>
+  </div>
+
+
+  <div class="tools-grid" id="toolsGrid"></div>
+
+
+  <section class="how-section">
+
+    <h2 class="title">How PDFSetu works</h2>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="number">01</div>
+        <h3>Choose a Tool</h3>
+        <p>
+          Select the PDF task you want to perform.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="number">02</div>
+        <h3>Upload Files</h3>
+        <p>
+          Select files from your device.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="number">03</div>
+        <h3>Process & Download</h3>
+        <p>
+          Process your files and download the result.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+
+<footer>
+  <h2>PDFSetu</h2>
+  <p>Smart PDF Tools • Simple • Fast • Mobile Friendly</p>
+  <br>
+  <p>© 2026 PDFSetu</p>
+</footer>
+
+
+<!-- TOOL MODAL -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeTool()">×</button>
+
+    <h2 id="toolTitle">Tool</h2>
+
+    <p class="description" id="toolDescription"></p>
+
+
+    <div class="upload-area" id="uploadArea">
+
+      <div style="font-size:40px">📄</div>
+
+      <h3>Drop files here</h3>
+
+      <p class="description">
+        or choose files from your device
+      </p>
+
+      <label class="choose-btn" for="fileInput">
+        Choose Files
+      </label>
+
+      <input type="file"
+             id="fileInput"
+             multiple>
+
+    </div>
+
+
+    <div class="page-options" id="pageOptions">
+
+      <input
+        type="text"
+        placeholder="Example: 1-3, 5, 8-10"
+        id="pageInput"
+      >
+
+    </div>
+
+
+    <div class="file-list" id="fileList">
+      No files selected
+    </div>
+
+
+    <button
+      class="process-btn"
+      id="processButton"
+      disabled
+      onclick="processFiles()">
+
+      PROCESS FILES
+
+    </button>
+
+
+    <div class="progress" id="progress">
+      <div class="progress-bar"
+           id="progressBar"></div>
+    </div>
+
+
+    <div class="result" id="result"></div>
+
+    <div class="warning" id="warning"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   PDF TOOLS DATA
+========================= */
+
+const tools = [
+
+  {
+    name: "Merge PDF",
+    description: "Combine multiple PDF files into one document.",
+    category: "Organize",
+    icon: "📎",
+    id: "merge"
+  },
+
+  {
+    name: "Split PDF",
+    description: "Split a PDF into selected page ranges.",
+    category: "Organize",
+    icon: "✂️",
+    id: "split"
+  },
+
+  {
+    name: "Compress PDF",
+    description: "Reduce the size of your PDF file.",
+    category: "Organize",
+    icon: "🗜️",
+    id: "compress"
+  },
+
+  {
+    name: "Delete Pages",
+    description: "Remove selected pages from your PDF.",
+    category: "Organize",
+    icon: "🗑️",
+    id: "delete"
+  },
+
+  {
+    name: "Extract Pages",
+    description: "Extract selected pages into a new PDF.",
+    category: "Organize",
+    icon: "📤",
+    id: "extract"
+  },
+
+  {
+    name: "Rotate PDF",
+    description: "Rotate pages inside your PDF.",
+    category: "Organize",
+    icon: "🔄",
+    id: "rotate"
+  },
+
+  {
+    name: "Reorder Pages",
+    description: "Change the order of PDF pages.",
+    category: "Organize",
+    icon: "↕️",
+    id: "reorder"
+  },
+
+  {
+    name: "Image to PDF",
+    description: "Convert images into a PDF document.",
+    category: "Convert",
+    icon: "🖼️",
+    id: "imageToPdf"
+  },
+
+  {
+    name: "PDF to Image",
+    description: "Convert PDF pages into images.",
+    category: "Convert",
+    icon: "📸",
+    id: "pdfToImage"
+  },
+
+  {
+    name: "PDF to Word",
+    description: "Convert PDF documents to editable Word files.",
+    category: "Convert",
+    icon: "📝",
+    id: "pdfToWord"
+  },
+
+  {
+    name: "Word to PDF",
+    description: "Convert documents into PDF format.",
+    category: "Convert",
+    icon: "📃",
+    id: "wordToPdf"
+  },
+
+  {
+    name: "OCR PDF",
+    description: "Extract text from scanned PDF documents.",
+    category: "Convert",
+    icon: "🔎",
+    id: "ocr"
+  },
+
+  {
+    name: "Add Watermark",
+    description: "Add a text watermark to your PDF.",
+    category: "Edit",
+    icon: "💧",
+    id: "watermark"
+  },
+
+  {
+    name: "Add Page Numbers",
+    description: "Insert page numbers into PDF pages.",
+    category: "Edit",
+    icon: "🔢",
+    id: "pageNumbers"
+  },
+
+  {
+    name: "Edit PDF",
+    description: "Add text and other elements to your PDF.",
+    category: "Edit",
+    icon: "✏️",
+    id: "edit"
+  },
+
+  {
+    name: "Protect PDF",
+    description: "Add password protection to files you own.",
+    category: "Security",
+    icon: "🔒",
+    id: "protect"
+  },
+
+  {
+    name: "Unlock PDF",
+    description: "Remove protection from files you are authorized to modify.",
+    category: "Security",
+    icon: "🔓",
+    id: "unlock"
+  }
+
+];
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let selectedCategory = "All";
+let currentTool = null;
+let selectedFiles = [];
+
+
+/* =========================
+   RENDER TOOLS
+========================= */
+
+function renderTools() {
+
+  const search =
+    document.getElementById("search")
+      .value.toLowerCase();
+
+  const grid =
+    document.getElementById("toolsGrid");
+
+  const filteredTools = tools.filter(tool => {
+
+    const categoryMatch =
+      selectedCategory === "All" ||
+      tool.category === selectedCategory;
+
+    const searchMatch =
+      tool.name.toLowerCase().includes(search) ||
+      tool.description.toLowerCase().includes(search);
+
+    return categoryMatch && searchMatch;
+
+  });
+
+
+  grid.innerHTML = "";
+
+
+  filteredTools.forEach(tool => {
+
+    grid.innerHTML += `
+
+      <div class="tool-card"
+           onclick="openTool('${tool.id}')">
+
+        <div class="icon">${tool.icon}</div>
+
+        <h3>${tool.name}</h3>
+
+        <p>${tool.description}</p>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+
+/* =========================
+   CATEGORY
+========================= */
+
+function setCategory(category, button) {
+
+  selectedCategory = category;
+
+  document
+    .querySelectorAll(".filter")
+    .forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+  button.classList.add("active");
+
+  renderTools();
+
+}
+
+
+function showCategory(category) {
+
+  selectedCategory = category;
+
+  document
+    .querySelectorAll(".filter")
+    .forEach(btn => {
+
+      btn.classList.remove("active");
+
+      if (btn.textContent.trim() === category) {
+        btn.classList.add("active");
+      }
+
+    });
+
+  scrollToTools();
+
+  renderTools();
+
+}
+
+
+function scrollToTools() {
+
+  document
+    .getElementById("tools")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* =========================
+   OPEN TOOL
+========================= */
+
+function openTool(id) {
+
+  currentTool =
+    tools.find(tool => tool.id === id);
+
+  selectedFiles = [];
+
+
+  document
+    .getElementById("toolTitle")
+    .textContent =
+    currentTool.name;
+
+
+  document
+    .getElementById("toolDescription")
+    .textContent =
+    currentTool.description;
+
+
+  document
+    .getElementById("fileList")
+    .textContent =
+    "No files selected";
+
+
+  document
+    .getElementById("processButton")
+    .disabled = true;
+
+
+  document
+    .getElementById("result")
+    .style.display = "none";
+
+
+  document
+    .getElementById("progress")
+    .style.display = "none";
+
+
+  document
+    .getElementById("progressBar")
+    .style.width = "0%";
+
+
+  document
+    .getElementById("fileInput")
+    .value = "";
+
+
+  const pageTools =
+    ["split", "delete", "extract", "rotate", "reorder"];
+
+
+  document
+    .getElementById("pageOptions")
+    .style.display =
+      pageTools.includes(id)
+      ? "block"
+      : "none";
+
+
+  if (id === "imageToPdf") {
+
+    document
+      .getElementById("warning")
+      .textContent =
+      "This tool works directly in your browser.";
+
+  } else {
+
+    document
+      .getElementById("warning")
+      .textContent =
+      "This interface is ready for backend/API integration. Advanced PDF processing requires the PDFSetu backend.";
+
+  }
+
+
+  document
+    .getElementById("modal")
+    .classList.add("show");
+
+}
+
+
+/* =========================
+   CLOSE TOOL
+========================= */
+
+function closeTool() {
+
+  document
+    .getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+/* =========================
+   FILE SELECT
+========================= */
+
+document
+  .getElementById("fileInput")
+  .addEventListener("change", function() {
+
+    setFiles(this.files);
+
+  });
+
+
+function setFiles(files) {
+
+  selectedFiles = Array.from(files);
+
+  const fileList =
+    document.getElementById("fileList");
+
+
+  if (selectedFiles.length === 0) {
+
+    fileList.textContent =
+      "No files selected";
+
+    document
+      .getElementById("processButton")
+      .disabled = true;
+
+    return;
+
+  }
+
+
+  let html = "";
+
+
+  selectedFiles.forEach(file => {
+
+    html += `
+      📄 ${file.name}
+      (${Math.round(file.size / 1024)} KB)
+      <br>
+    `;
+
+  });
+
+
+  fileList.innerHTML = html;
+
+
+  document
+    .getElementById("processButton")
+    .disabled = false;
+
+}
+
+
+/* =========================
+   DRAG AND DROP
+========================= */
+
+const uploadArea =
+  document.getElementById("uploadArea");
+
+
+["dragenter", "dragover"].forEach(eventName => {
+
+  uploadArea.addEventListener(
+    eventName,
+    function(event) {
+
+      event.preventDefault();
+
+      uploadArea.classList.add("drag");
+
+    }
+  );
+
+});
+
+
+["dragleave", "drop"].forEach(eventName => {
+
+  uploadArea.addEventListener(
+    eventName,
+    function(event) {
+
+      event.preventDefault();
+
+      uploadArea.classList.remove("drag");
+
+    }
+  );
+
+});
+
+
+uploadArea.addEventListener(
+  "drop",
+  function(event) {
+
+    setFiles(event.dataTransfer.files);
+
+  }
+);
+
+
+/* =========================
+   PROCESS FILES
+========================= */
+
+async function processFiles() {
+
+  if (selectedFiles.length === 0) {
+    return;
+  }
+
+
+  const progress =
+    document.getElementById("progress");
+
+  const progressBar =
+    document.getElementById("progressBar");
+
+  const result =
+    document.getElementById("result");
+
+
+  progress.style.display = "block";
+
+  progressBar.style.width = "20%";
+
+  setTimeout(() => {
+    progressBar.style.width = "55%";
+  }, 300);
+
+
+  /*
+    IMAGE TO PDF
+    Browser mein working
+  */
+
+  if (
+    currentTool.id === "imageToPdf"
+  ) {
+
+    setTimeout(async () => {
+
+      try {
+
+        const { jsPDF } =
+          window.jspdf;
+
+
+        let pdf =
+          new jsPDF();
+
+
+        for (
+          let i = 0;
+          i < selectedFiles.length;
+          i++
+        ) {
+
+          const file =
+            selectedFiles[i];
+
+
+          const imageData =
+            await readFile(file);
+
+
+          const image =
+            new Image();
+
+
+          image.src = imageData;
+
+
+          await new Promise(resolve => {
+            image.onload = resolve;          });
+
+          if (i > 0) {
+            pdf.addPage();
+          }
+
+          const pageWidth =
+            pdf.internal.pageSize.getWidth();
+
+          const pageHeight =
+            pdf.internal.pageSize.getHeight();
+
+          const ratio =
+            Math.min(
+              pageWidth / image.width,
+              pageHeight / image.height
+            );
+
+          const width = image.width * ratio;
+          const height = image.height * ratio;
+
+          const x = (pageWidth - width) / 2;
+          const y = (pageHeight - height) / 2;
+
+          pdf.addImage(
+            imageData,
+            "JPEG",
+            x,
+            y,
+            width,
+            height
+          );
+        }
+
+        progressBar.style.width = "100%";
+
+        pdf.save("PDFSetu-Result.pdf");
+
+        result.style.display = "block";
+
+        result.textContent =
+          "Done! Your PDF has been created successfully.";
+
+      } catch (error) {
+
+        result.style.display = "block";
+
+        result.textContent =
+          "Unable to process this file in the browser.";
+
+      }
+
+    }, 700);
+
+  } else {
+
+    setTimeout(() => {
+
+      progressBar.style.width = "100%";
+
+      result.style.display = "block";
+
+      result.textContent =
+        "Demo processing complete. Connect this tool with the PDFSetu backend API to perform real PDF processing.";
+
+    }, 900);
+
+  }
+
+}
+
+
+/* READ FILE */
+
+function readFile(file) {
+
+  return new Promise(resolve => {
+
+    const reader = new FileReader();
+
+    reader.onload =
+      event => resolve(event.target.result);
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+
+/* START */
+
+renderTools();
+
+</script>
+
+</body>
+</html>
