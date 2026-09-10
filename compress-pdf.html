@@ -1,1 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Compress PDF - PDFSetu</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 15px 20px;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .back {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0 0 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .upload-box {
+            border: 2px dashed #2563eb;
+            border-radius: 15px;
+            padding: 35px 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .upload-box p {
+            color: #6b7280;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .choose-btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 13px 24px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .file-info {
+            display: none;
+            background: #f3f4f6;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            margin-top: 25px;
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        .setting {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .setting label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .range-value {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-row label {
+            margin: 0;
+        }
+
+        .estimate {
+            background: #eff6ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .estimate strong {
+            color: #1d4ed8;
+        }
+
+        .compress-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #16a34a;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .compress-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        #status {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            color: #6b7280;
+        }
+
+        footer a {
+            color: #2563eb;
+            text-decoration: none;
+            margin: 0 7px;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-inner">
+
+        <img src="favicon.png" class="logo" alt="PDFSetu">
+
+        <div class="brand">
+            PDFSetu
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <a href="index.html" class="back">
+        ← Back to PDFSetu
+    </a>
+
+
+    <div class="card">
+
+        <h1>Compress PDF</h1>
+
+        <p class="subtitle">
+            Reduce your PDF size with control over quality and output settings.
+        </p>
+
+
+        <!-- Upload -->
+
+        <div class="upload-box">
+
+            <p>
+                Select the PDF you want to compress
+            </p>
+
+            <label for="pdfFile" class="choose-btn">
+                Choose PDF File
+            </label>
+
+            <input
+                type="file"
+                id="pdfFile"
+                accept=".pdf,application/pdf"
+            >
+
+        </div>
+
+
+        <div id="fileInfo" class="file-info">
+
+            <strong>Selected file:</strong>
+            <span id="fileName"></span>
+
+            <br>
+
+            <strong>Original size:</strong>
+            <span id="originalSize"></span>
+
+        </div>
+
+
+        <!-- Target Size -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Target File Size
+            </div>
+
+            <div class="setting">
+
+                <label for="targetSize">
+                    Target size
+                </label>
+
+                <div class="row">
+
+                    <select id="sizeUnit">
+
+                        <option value="KB">KB</option>
+                        <option value="MB">MB</option>
+
+                    </select>
+
+                    <input
+                        type="number"
+                        id="targetSize"
+                        min="1"
+                        step="1"
+                        value="100"
+                        placeholder="Example: 100"
+                    >
+
+                </div>
+
+                <p class="help">
+                    Example: 10 KB, 50 KB, 100 KB, 1 MB.
+                    The tool will try to keep the output at or below the target.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- DPI -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Resolution
+            </div>
+
+            <div class="setting">
+
+                <label for="dpi">
+                    DPI:
+                    <span id="dpiValue" class="range-value">
+                        150
+                    </span>
+                </label>
+
+                <input
+                    type="range"
+                    id="dpi"
+                    min="36"
+                    max="600"
+                    value="150"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- Quality -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Image Quality
+            </div>
+
+            <div class="setting">
+
+                <label for="quality">
+                    Quality:
+                    <span id="qualityValue" class="range-value">
+                        70%
+                    </span>
+                </label>
+
+                <input
+                    type="range"
+                    id="quality"
+                    min="10"
+                    max="100"
+                    value="70"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- Dimensions -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Page Dimensions
+            </div>
+
+            <div class="row">
+
+                <div class="setting">
+
+                    <label for="width">
+                        Width
+                    </label>
+
+                    <input
+                        type="number"
+                        id="width"
+                        placeholder="Auto"
+                        min="1"
+                    >
+
+                </div>
+
+
+                <div class="setting">
+
+                    <label for="height">
+                        Height
+                    </label>
+
+                    <input
+                        type="number"
+                        id="height"
+                        placeholder="Auto"
+                        min="1"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Page Size -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Page Size
+            </div>
+
+            <div class="setting">
+
+                <label for="pageSize">
+                    Output page size
+                </label>
+
+                <select id="pageSize">
+
+                    <option value="original">
+                        Original
+                    </option>
+
+                    <option value="a4">
+                        A4
+                    </option>
+
+                    <option value="a5">
+                        A5
+                    </option>
+
+                    <option value="letter">
+                        Letter
+                    </option>
+
+                    <option value="legal">
+                        Legal
+                    </option>
+
+                    <option value="custom">
+                        Custom
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- Rotate -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Rotate
+            </div>
+
+            <div class="setting">
+
+                <select id="rotate">
+
+                    <option value="0">
+                        No rotation
+                    </option>
+
+                    <option value="90">
+                        90°
+                    </option>
+
+                    <option value="180">
+                        180°
+                    </option>
+
+                    <option value="270">
+                        270°
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- Crop -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Crop
+            </div>
+
+            <div class="setting">
+
+                <label for="crop">
+                    Crop amount (%)
+                </label>
+
+                <input
+                    type="number"
+                    id="crop"
+                    min="0"
+                    max="45"
+                    value="0"
+                    placeholder="0"
+                >
+
+                <p class="help">
+                    0% means no crop.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Grayscale -->
+
+        <div class="section">
+
+            <div class="setting">
+
+                <div class="checkbox-row">
+
+                    <input
+                        type="checkbox"
+                        id="grayscale"
+                    >
+
+                    <label for="grayscale">
+                        Convert to grayscale
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Estimate -->
+
+        <div class="estimate">
+
+            <strong>Estimated Output Size:</strong>
+
+            <span id="estimatedSize">
+                Select a PDF to calculate
+            </span>
+
+        </div>
+
+
+        <!-- Button -->
+
+        <button
+            id="compressBtn"
+            class="compress-btn"
+            disabled
+        >
+            Compress & Download
+        </button>
+
+
+        <div id="status"></div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <a href="about.html">
+        About Us
+    </a>
+
+    <a href="contact.html">
+        Contact Us
+    </a>
+
+    <a href="terms.html">
+        Terms & Conditions
+    </a>
+
+    <p>
+        © 2026 PDFSetu
+    </p>
+
+</footer>
+
+
+<script>
+
+    const pdfFile =
+        document.getElementById("pdfFile");
+
+    const fileInfo =
+        document.getElementById("fileInfo");
+
+    const fileName =
+        document.getElementById("fileName");
+
+    const originalSize =
+        document.getElementById("originalSize");
+
+    const compressBtn =
+        document.getElementById("compressBtn");
+
+    const dpi =
+        document.getElementById("dpi");
+
+    const dpiValue =
+        document.getElementById("dpiValue");
+
+    const quality =
+        document.getElementById("quality");
+
+    const qualityValue =
+        document.getElementById("qualityValue");
+
+    const estimatedSize =
+        document.getElementById("estimatedSize");
+
+    const status =
+        document.getElementById("status");
+
+
+    let selectedFile = null;
+
+
+    // File selection
+
+    pdfFile.addEventListener("change", function () {
+
+        if (pdfFile.files.length > 0) {
+
+            selectedFile = pdfFile.files[0];
+
+            fileName.textContent =
+                selectedFile.name;
+
+            originalSize.textContent =
+                formatSize(selectedFile.size);
+
+            fileInfo.style.display = "block";
+
+            compressBtn.disabled = false;
+
+            updateEstimate();
+
+            status.textContent = "";
+
+        }
+
+    });
+
+
+    // DPI
+
+    dpi.addEventListener("input", function () {
+
+        dpiValue.textContent =
+            dpi.value;
+
+        updateEstimate();
+
+    });
+
+
+    // Quality
+
+    quality.addEventListener("input", function () {
+
+        qualityValue.textContent =
+            quality.value + "%";
+
+        updateEstimate();
+
+    });
+
+
+    // Other settings
+
+    document
+        .getElementById("targetSize")
+        .addEventListener("input", updateEstimate);
+
+    document
+        .getElementById("sizeUnit")
+        .addEventListener("change", updateEstimate);
+
+    document
+        .getElementById("width")
+        .addEventListener("input", updateEstimate);
+
+    document
+        .getElementById("height")
+        .addEventListener("input", updateEstimate);
+
+    document
+        .getElementById("crop")
+        .addEventListener("input", updateEstimate);
+
+    document
+        .getElementById("grayscale")
+        .addEventListener("change", updateEstimate);
+
+
+    function updateEstimate() {
+
+        if (!selectedFile) {
+
+            estimatedSize.textContent =
+                "Select a PDF to calculate";
+
+            return;
+
+        }
+
+
+        const target =
+            Number(
+                document.getElementById(
+                    "targetSize"
+                ).value
+            );
+
+
+        const unit =
+            document.getElementById(
+                "sizeUnit"
+            ).value;
+
+
+        if (!target || target <= 0) {
+
+            estimatedSize.textContent =
+                "Enter a target size";
+
+            return;
+
+        }
+
+
+        let targetBytes = target;
+
+
+        if (unit === "KB") {
+
+            targetBytes =
+                target * 1024;
+
+        } else {
+
+            targetBytes =
+                target * 1024 * 1024;
+
+        }
+
+
+        const original =
+            selectedFile.size;
+
+
+        const estimated =
+            Math.min(
+                original,
+                targetBytes
+            );
+
+
+        estimatedSize.textContent =
+            formatSize(estimated) +
+            " (target)";
+
+    }
+
+
+    function formatSize(bytes) {
+
+        if (bytes < 1024) {
+
+            return bytes + " B";
+
+        }
+
+        if (bytes < 1024 * 1024) {
+
+            return (
+                (bytes / 1024).toFixed(1)
+                + " KB"
+            );
+
+        }
+
+        return (
+            (bytes / (1024 * 1024)).toFixed(2)
+            + " MB"
+        );
+
+    }
+
+
+    // Temporary button
+
+    compressBtn.addEventListener(
+        "click",
+        function () {
+
+            status.textContent =
+                "Compression backend will be connected next.";
+
+        }
+    );
+
+</script>
+
+</body>
+  </html>
