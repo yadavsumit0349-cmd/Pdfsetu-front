@@ -417,5 +417,116 @@
             fileName.textContent = selectedFile.name;
 
             fileInfo.style.display = "block";
+            splitBtn.disabled = false;
+        }
+    });
 
+    // Split mode change
+    document.querySelectorAll('input[name="splitMode"]').forEach(function (radio) {
+
+        radio.addEventListener("change", function () {
+
+            if (this.value === "pages") {
+                pagesBox.style.display = "block";
+            } else {
+                pagesBox.style.display = "none";
+            }
+
+        });
+
+    });
+
+    // Split PDF
+    splitBtn.addEventListener("click", async function () {
+
+        if (!selectedFile) {
+            status.textContent = "Please select a PDF file.";
+            return;
+        }
+
+        const mode =
+            document.querySelector('input[name="splitMode"]:checked').value;
+
+        if (mode === "pages" && pageRange.value.trim() === "") {
+            status.textContent =
+                "Please enter the page numbers or ranges.";
+            return;
+        }
+
+        splitBtn.disabled = true;
+        status.textContent = "Processing PDF... Please wait.";
+
+        const formData = new FormData();
+
+        formData.append("file", selectedFile);
+        formData.append("mode", mode);
+        formData.append("pages", pageRange.value.trim());
+
+        try {
+
+            const response = await fetch(
+                "https://pdfsetu.onrender.com/api/split",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            if (!response.ok) {
+
+                let message = "Unable to split PDF.";
+
+                try {
+                    const errorData = await response.json();
+
+                    if (errorData.detail) {
+                        message = errorData.detail;
+                    }
+
+                } catch (e) {}
+
+                throw new Error(message);
+            }
+
+            const blob = await response.blob();
+
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+
+            a.href = url;
+
+            if (mode === "pages") {
+                a.download = "PDFSetu-Extracted.pdf";
+            } else {
+                a.download = "PDFSetu-Split.zip";
+            }
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            a.remove();
+
+            window.URL.revokeObjectURL(url);
+
+            status.textContent =
+                "Done! Your file has been downloaded.";
+
+        } catch (error) {
+
+            status.textContent =
+                "Error: " + error.message;
+
+        } finally {
+
+            splitBtn.disabled = false;
+
+        }
+
+    });
+</script>
+
+</body>
+</html>
            
