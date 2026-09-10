@@ -842,22 +842,22 @@ function renderTools() {
 
   filteredTools.forEach(tool => {
 
-    grid.innerHTML += `
+  grid.innerHTML += `
 
-      <div class="tool-card"
-           onclick="openTool('${tool.id}')">
+    <div class="tool-card"
+         onclick="${tool.page ? `window.location.href='${tool.page}'` : `openTool('${tool.id}')`}">
 
-        <div class="icon">${tool.icon}</div>
+      <div class="icon">${tool.icon}</div>
 
-        <h3>${tool.name}</h3>
+      <h3>${tool.name}</h3>
 
-        <p>${tool.description}</p>
+      <p>${tool.description}</p>
 
-      </div>
+    </div>
 
-    `;
+  `;
 
-  });
+});
 
 }
 
