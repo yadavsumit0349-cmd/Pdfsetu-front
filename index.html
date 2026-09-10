@@ -924,9 +924,14 @@ function scrollToTools() {
 function openTool(id) {
 
   currentTool =
-    tools.find(tool => tool.id === id);
+  tools.find(tool => tool.id === id);
 
-  selectedFiles = [];
+if (currentTool.page) {
+  window.location.href = currentTool.page;
+  return;
+}
+
+selectedFiles = [];
 
 
   document
