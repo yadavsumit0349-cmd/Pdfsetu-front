@@ -845,7 +845,7 @@ function renderTools() {
   grid.innerHTML += `
 
     <div class="tool-card"
-         onclick="${tool.page ? `window.location.href='${tool.page}'` : `openTool('${tool.id}')`}">
+         onclick="openTool('${tool.id}')">
 
       <div class="icon">${tool.icon}</div>
 
