@@ -479,7 +479,86 @@ let dragging = false;
 let startX = 0;
 let startY = 0;
 
+let pinchZoom = false;
+let pinchStartDistance = 0;
+let pinchStartZoom = 1;
 
+function getDistance(t1, t2){
+
+    const dx = t2.clientX - t1.clientX;
+    const dy = t2.clientY - t1.clientY;
+
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+
+canvas.addEventListener("touchstart", function(e){
+
+    if(e.touches.length === 2){
+
+        e.preventDefault();
+
+        pinchZoom = true;
+
+        pinchStartDistance =
+            getDistance(
+                e.touches[0],
+                e.touches[1]
+            );
+
+        pinchStartZoom = zoom;
+
+    }
+
+}, { passive:false });
+
+
+canvas.addEventListener("touchmove", function(e){
+
+    if(e.touches.length === 2 && pinchZoom){
+
+        e.preventDefault();
+
+        const currentDistance =
+            getDistance(
+                e.touches[0],
+                e.touches[1]
+            );
+
+        const ratio =
+            currentDistance / pinchStartDistance;
+
+        zoom =
+            pinchStartZoom * ratio;
+
+        if(zoom < 0.5)
+            zoom = 0.5;
+
+        if(zoom > 3)
+            zoom = 3;
+
+        scale =
+            baseScale * zoom;
+
+        draw();
+
+        updateZoom();
+
+    }
+
+}, { passive:false });
+
+
+canvas.addEventListener("touchend", function(e){
+
+    if(e.touches.length < 2){
+
+        pinchZoom = false;
+
+    }
+
+});
+      
 /* =====================================================
    EXAM REQUIREMENTS
 
