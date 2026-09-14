@@ -412,6 +412,69 @@ let imageX = 0;
 let imageY = 0;
 let scale = 1;
 
+      let baseScale = 1;
+let zoom = 1;
+
+const zoomInBtn =
+    document.getElementById("zoomInBtn");
+
+const zoomOutBtn =
+    document.getElementById("zoomOutBtn");
+
+const zoomValue =
+    document.getElementById("zoomValue");
+
+
+function updateZoom(){
+
+    zoomValue.textContent =
+        Math.round(zoom * 100) + "%";
+
+}
+
+
+zoomInBtn.addEventListener(
+    "click",
+    function(){
+
+        if(!image) return;
+
+        zoom += 0.10;
+
+        if(zoom > 3)
+            zoom = 3;
+
+        scale =
+            baseScale * zoom;
+
+        draw();
+
+        updateZoom();
+
+    }
+);
+
+
+zoomOutBtn.addEventListener(
+    "click",
+    function(){
+
+        if(!image) return;
+
+        zoom -= 0.10;
+
+        if(zoom < 0.5)
+            zoom = 0.5;
+
+        scale =
+            baseScale * zoom;
+
+        draw();
+
+        updateZoom();
+
+    }
+);
 let dragging = false;
 let startX = 0;
 let startY = 0;
