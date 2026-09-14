@@ -320,7 +320,23 @@ JPG/JPEG recommended unless your exam notification says otherwise.
 <canvas id="canvas"></canvas>
 </div><p class="help">
 Image को उंगली से drag करके box के अंदर सही जगह पर सेट करें।
-</p><div class="actions"><button class="reset" id="resetBtn">
+</p>
+    <div class="zoom-controls">
+
+    <button type="button" id="zoomOutBtn">
+        −
+    </button>
+
+    <span id="zoomValue">
+        100%
+    </span>
+
+    <button type="button" id="zoomInBtn">
+        +
+    </button>
+
+    </div>
+<div class="actions"><button class="reset" id="resetBtn">
 Reset
 </button><button class="download" id="downloadBtn">
 Download
