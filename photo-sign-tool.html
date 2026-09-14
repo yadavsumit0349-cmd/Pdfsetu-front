@@ -491,73 +491,120 @@ function getDistance(t1, t2){
     return Math.sqrt(dx * dx + dy * dy);
 }
 
+/* =====================================================
+   PINCH ZOOM - TWO FINGERS
+===================================================== */
 
-canvas.addEventListener("touchstart", function(e){
+let pinchStartDistance = 0;
+let pinchStartZoom = 1;
 
-    if(e.touches.length === 2){
 
-        e.preventDefault();
+function getTouchDistance(touch1, touch2){
 
-        pinchZoom = true;
+    const dx =
+        touch2.clientX - touch1.clientX;
 
-        pinchStartDistance =
-            getDistance(
-                e.touches[0],
-                e.touches[1]
-            );
+    const dy =
+        touch2.clientY - touch1.clientY;
 
-        pinchStartZoom = zoom;
+    return Math.sqrt(
+        dx * dx + dy * dy
+    );
+
+}
+
+
+/* TWO FINGER START */
+
+canvas.addEventListener(
+    "touchstart",
+    function(e){
+
+        if(e.touches.length === 2){
+
+            e.preventDefault();
+
+            pinchStartDistance =
+                getTouchDistance(
+                    e.touches[0],
+                    e.touches[1]
+                );
+
+            pinchStartZoom = zoom;
+
+        }
+
+    },
+    { passive:false }
+);
+
+
+/* TWO FINGER MOVE */
+
+canvas.addEventListener(
+    "touchmove",
+    function(e){
+
+        if(
+            e.touches.length === 2 &&
+            pinchStartDistance > 0
+        ){
+
+            e.preventDefault();
+
+            const currentDistance =
+                getTouchDistance(
+                    e.touches[0],
+                    e.touches[1]
+                );
+
+
+            const ratio =
+                currentDistance /
+                pinchStartDistance;
+
+
+            zoom =
+                pinchStartZoom * ratio;
+
+
+            if(zoom < 0.5)
+                zoom = 0.5;
+
+
+            if(zoom > 3)
+                zoom = 3;
+
+
+            scale =
+                baseScale * zoom;
+
+
+            draw();
+
+            updateZoom();
+
+        }
+
+    },
+    { passive:false }
+);
+
+
+/* TWO FINGER END */
+
+canvas.addEventListener(
+    "touchend",
+    function(e){
+
+        if(e.touches.length < 2){
+
+            pinchStartDistance = 0;
+
+        }
 
     }
-
-}, { passive:false });
-
-
-canvas.addEventListener("touchmove", function(e){
-
-    if(e.touches.length === 2 && pinchZoom){
-
-        e.preventDefault();
-
-        const currentDistance =
-            getDistance(
-                e.touches[0],
-                e.touches[1]
-            );
-
-        const ratio =
-            currentDistance / pinchStartDistance;
-
-        zoom =
-            pinchStartZoom * ratio;
-
-        if(zoom < 0.5)
-            zoom = 0.5;
-
-        if(zoom > 3)
-            zoom = 3;
-
-        scale =
-            baseScale * zoom;
-
-        draw();
-
-        updateZoom();
-
-    }
-
-}, { passive:false });
-
-
-canvas.addEventListener("touchend", function(e){
-
-    if(e.touches.length < 2){
-
-        pinchZoom = false;
-
-    }
-
-});
+);
       
 /* =====================================================
    EXAM REQUIREMENTS
