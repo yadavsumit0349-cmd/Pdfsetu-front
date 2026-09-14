@@ -330,7 +330,8 @@ Download
 
 <p>
 © 2026 PDFSetu
-</p></footer><script>
+</p></footer>
+  <script>
 
 const exam = document.getElementById("exam");
 const examInfo = document.getElementById("examInfo");
@@ -342,23 +343,21 @@ const signatureTab = document.getElementById("signatureTab");
 const imageFile = document.getElementById("imageFile");
 const uploadText = document.getElementById("uploadText");
 
+const uploadSection = document.getElementById("uploadSection");
 const editor = document.getElementById("editor");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const resetBtn = document.getElementById("resetBtn");
 const downloadBtn = document.getElementById("downloadBtn");
-
 const status = document.getElementById("status");
 
 let currentType = "photo";
 let currentPreset = null;
-
 let image = null;
 
 let imageX = 0;
 let imageY = 0;
-
 let scale = 1;
 
 let dragging = false;
@@ -366,216 +365,284 @@ let startX = 0;
 let startY = 0;
 
 
-/*
-========================================
-EXAM PRESETS
-========================================
+/* =====================================================
+   EXAM REQUIREMENTS
 
-Only verified requirements are entered
-as fixed presets.
+   IMPORTANT:
+   "verified" means PDFSetu has a specific requirement
+   that can safely be shown as a preset.
 
-For exams whose current requirement
-needs notification-specific verification,
-the tool does NOT invent dimensions.
-*/
+   "custom" means candidate must enter/check the
+   requirement from the current official notification.
+===================================================== */
 
 const presets = {
 
     uppsc: {
-        name:"UPPSC",
-        photo:{
-            width:5,
-            height:6,
-            unit:"cm",
-            maxKB:50,
-            dpi:200
+        name: "UPPSC",
+
+        photo: {
+            verified: false,
+            note: "UPPSC recruitment/application के अनुसार requirement बदल सकती है। Current official notification verify करें।"
         },
-        signature:{
-            width:6,
-            height:3,
-            unit:"cm",
-            maxKB:30,
-            dpi:200
+
+        signature: {
+            verified: false,
+            note: "UPPSC recruitment/application के अनुसार requirement बदल सकती है। Current official notification verify करें।"
         }
     },
 
-    upsc:{
-        name:"UPSC",
-        photo:null,
-        signature:null,
-        note:
-        "UPSC requirements can be application-specific. " +
-        "Please verify the current UPSC application instructions."
+
+    upsc: {
+        name: "UPSC",
+
+        photo: {
+            verified: false,
+            note: "UPSC की अलग-अलग applications में requirements अलग हो सकती हैं। Current UPSC notification/application instructions verify करें।"
+        },
+
+        signature: {
+            verified: false,
+            note: "Current UPSC application instructions के अनुसार requirement verify करें।"
+        }
     },
 
-    ssc:{
-        name:"SSC",
-        photo:null,
-        signature:null,
-        note:
-        "SSC photo requirements can include live photograph " +
-        "depending on the examination. Verify the current SSC notice."
+
+    ssc: {
+        name: "SSC",
+
+        photo: {
+            verified: false,
+            live: true,
+            note:
+            "इस SSC application में live photograph capture की requirement हो सकती है। Pre-existing photograph को camera से capture करके upload न करें। Current SSC notice जरूर verify करें।"
+        },
+
+        signature: {
+            verified: true,
+            width: 6,
+            height: 2,
+            unit: "cm",
+            maxKBMin: 10,
+            maxKB: 20,
+            dpi: 200,
+            note:
+            "Current SSC notice में scanned signature JPEG/JPG, 10–20 KB और लगभग 6 × 2 cm दिया गया है।"
+        }
     },
 
-    ibps:{
-        name:"IBPS / Banking",
-        photo:null,
-        signature:null,
-        note:
-        "Banking recruitment requirements can differ by notification. " +
-        "Verify the current IBPS notification."
+
+    ibps: {
+        name: "IBPS / Banking",
+
+        photo: {
+            verified: false,
+            note:
+            "IBPS में recruitment के अनुसार photo requirements बदल सकती हैं। Current recruitment की official notification और scanning guidelines verify करें।"
+        },
+
+        signature: {
+            verified: false,
+            note:
+            "IBPS में recruitment के अनुसार signature requirements बदल सकती हैं। Current recruitment की official scanning guidelines verify करें।"
+        }
     },
 
-    "up-police":{
-        name:"UP Police",
-        photo:null,
-        signature:null,
-        note:
-        "UP Police requirements vary by recruitment notification. " +
-        "Verify the current UPPRPB notification."
+
+    "up-police": {
+        name: "UP Police",
+
+        photo: {
+            verified: false,
+            note:
+            "UP Police recruitment के अनुसार requirement बदल सकती है। Current UPPRPB notification verify करें।"
+        },
+
+        signature: {
+            verified: false,
+            note:
+            "Current UPPRPB notification में दी गई signature requirement verify करें।"
+        }
     },
 
-    upsssc:{
-        name:"UPSSSC",
-        photo:null,
-        signature:null,
-        note:
-        "UPSSSC requirements can differ by recruitment. " +
-        "Verify the current notification."
+
+    upsssc: {
+        name: "UPSSSC",
+
+        photo: {
+            verified: false,
+            note:
+            "UPSSSC की recruitment के अनुसार requirement बदल सकती है। Current notification verify करें।"
+        },
+
+        signature: {
+            verified: false,
+            note:
+            "Current UPSSSC notification verify करें।"
+        }
     },
 
-    army:{
-        name:"Indian Army / Agniveer",
-        photo:null,
-        signature:null,
-        note:
-        "Army recruitment requirements can differ by recruitment cycle. " +
-        "Verify the current official notification."
+
+    army: {
+        name: "Indian Army / Agniveer",
+
+        photo: {
+            verified: false,
+            note:
+            "Recruitment cycle के अनुसार requirement बदल सकती है। Current official notification verify करें।"
+        },
+
+        signature: {
+            verified: false,
+            note:
+            "Current official recruitment notification verify करें।"
+        }
     },
 
-    bsf:{
-        name:"BSF",
-        photo:null,
-        signature:null,
-        note:
-        "BSF requirements can differ by recruitment. " +
-        "Verify the current official notification."
+
+    bsf: {
+        name: "BSF",
+
+        photo: {
+            verified: false,
+            note:
+            "Recruitment के अनुसार photo requirement बदल सकती है। Current official notification verify करें।"
+        },
+
+        signature: {
+            verified: false,
+            note:
+            "Recruitment के अनुसार signature requirement बदल सकती है। Current official notification verify करें।"
+        }
     },
 
-    capf:{
-        name:"CAPF / Other Paramilitary",
-        photo:null,
-        signature:null,
-        note:
-        "CAPF/paramilitary requirements can differ by examination. " +
-        "Verify the current official notification."
+
+    capf: {
+        name: "CAPF / Other Paramilitary",
+
+        photo: {
+            verified: false,
+            note:
+            "Examination/recruitment के अनुसार requirement बदल सकती है। Current official notification verify करें।"
+        },
+
+        signature: {
+            verified: false,
+            note:
+            "Current official notification verify करें।"
+        }
     },
 
-    railway:{
-        name:"Railway / RRB",
-        photo:null,
-        signature:null,
-        note:
-        "RRB requirements can differ by recruitment. " +
-        "Verify the current official notification."
+
+    railway: {
+        name: "Railway / RRB",
+
+        photo: {
+            verified: false,
+            note:
+            "RRB recruitment के अनुसार photo requirement बदल सकती है। Current official notification verify करें।"
+        },
+
+        signature: {
+            verified: false,
+            note:
+            "RRB recruitment के अनुसार signature requirement बदल सकती है। Current official notification verify करें।"
+        }
     },
 
-    other:{
-        name:"Other Exam",
-        photo:null,
-        signature:null,
-        note:
-        "Enter the requirements according to your current official notification."
+
+    other: {
+        name: "Other Exam",
+
+        photo: {
+            verified: false,
+            note:
+            "अपने current official notification से exact dimensions और file size check करें।"
+        },
+
+        signature: {
+            verified: false,
+            note:
+            "अपने current official notification से exact dimensions और file size check करें।"
+        }
     }
 
 };
 
 
+/* =====================================================
+   SHOW EXAM
+===================================================== */
+
 function showExam(){
 
     const value = exam.value;
 
+    editor.style.display = "none";
+    imageFile.value = "";
+    image = null;
+    status.textContent = "";
+
     if(!value){
 
-        toolSection.style.display="none";
-        examInfo.style.display="none";
+        toolSection.style.display = "none";
+        examInfo.style.display = "none";
 
         return;
     }
 
     const data = presets[value];
 
-    toolSection.style.display="block";
-    examInfo.style.display="block";
+    toolSection.style.display = "block";
+    examInfo.style.display = "block";
 
-    if(data.photo || data.signature){
+    examInfo.innerHTML = `
+        <strong>${data.name}</strong><br><br>
 
-        let html = "<strong>" + data.name + "</strong><br><br>";
+        <div style="
+            background:#eff6ff;
+            border:1px solid #bfdbfe;
+            padding:12px;
+            border-radius:10px;
+            line-height:1.6;
+        ">
 
-        if(data.photo){
+        <strong>Candidate ध्यान दें:</strong><br>
 
-            html +=
-            "📷 Photo: " +
-            data.photo.width + " × " +
-            data.photo.height + " " +
-            data.photo.unit +
-            " | < " +
-            data.photo.maxKB +
-            " KB | " +
-            data.photo.dpi +
-            " DPI<br>";
-        }
+        PDFSetu पहले current official notification/
+        application instructions verify करने की सलाह देता है।
 
-        if(data.signature){
-
-            html +=
-            "✍️ Signature: " +
-            data.signature.width + " × " +
-            data.signature.height + " " +
-            data.signature.unit +
-            " | < " +
-            data.signature.maxKB +
-            " KB | " +
-            data.signature.dpi +
-            " DPI";
-        }
-
-        examInfo.innerHTML=html;
-
-    }else{
-
-        examInfo.innerHTML =
-        "<strong>" + data.name + "</strong><br><br>" +
-        "ℹ️ इस exam के लिए इस version में कोई fixed " +
-        "unverified preset नहीं लगाया गया है।<br><br>" +
-        "<strong>" +
-        data.note +
-        "</strong>";
-
-    }
+        </div>
+    `;
 
     selectType("photo");
 }
 
 
-exam.addEventListener("change",showExam);
+exam.addEventListener("change", showExam);
 
+
+/* =====================================================
+   SELECT PHOTO / SIGNATURE
+===================================================== */
 
 function selectType(type){
 
-    currentType=type;
+    currentType = type;
 
-    const data=presets[exam.value];
+    const data = presets[exam.value];
 
     currentPreset =
         data ? data[type] : null;
 
-    editor.style.display="none";
-    imageFile.value="";
-    image=null;
-    status.textContent="";
+    editor.style.display = "none";
 
-    if(type==="photo"){
+    imageFile.value = "";
+    image = null;
+
+    status.textContent = "";
+
+    if(type === "photo"){
 
         photoTab.classList.add("active");
         signatureTab.classList.remove("active");
@@ -587,50 +654,175 @@ function selectType(type){
 
     }
 
-    /*
-    If no verified preset exists,
-    do not pretend that the tool knows
-    the exact requirement.
-    */
-
     if(!currentPreset){
 
-        uploadSection.style.display="none";
-
-        if(
-            exam.value==="ssc" &&
-            type==="photo"
-        ){
-
-            examInfo.innerHTML +=
-            "<br><br>📷 <strong>Live/static photo method " +
-            "notification के अनुसार verify करें.</strong>";
-
-        }
+        uploadSection.style.display = "none";
 
         return;
     }
 
-    uploadSection.style.display="block";
+
+    /*
+       LIVE PHOTO
+    */
+
+    if(currentPreset.live){
+
+        uploadSection.style.display = "none";
+
+        examInfo.innerHTML += `
+            <br>
+
+            <div style="
+                background:#fff7ed;
+                border:1px solid #fed7aa;
+                padding:14px;
+                border-radius:10px;
+                color:#9a3412;
+                line-height:1.6;
+            ">
+
+            <strong>📷 Live Photograph</strong><br>
+
+            इस requirement में pre-existing photo upload
+            करने के बजाय application के camera module से
+            photograph capture करनी पड़ सकती है।
+
+            <br><br>
+
+            <strong>
+            Current SSC application instructions जरूर verify करें।
+            </strong>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    uploadSection.style.display = "block";
 
     uploadText.textContent =
-        type==="photo"
+        type === "photo"
         ? "Select your photograph."
         : "Select your signature.";
 
+
+    showRequirement();
 }
 
 
 photoTab.addEventListener(
     "click",
-    ()=>selectType("photo")
+    () => selectType("photo")
 );
+
 
 signatureTab.addEventListener(
     "click",
-    ()=>selectType("signature")
+    () => selectType("signature")
 );
 
+
+/* =====================================================
+   REQUIREMENT DISPLAY
+===================================================== */
+
+function showRequirement(){
+
+    if(!currentPreset)
+        return;
+
+
+    if(!currentPreset.verified){
+
+        examInfo.innerHTML += `
+
+            <br>
+
+            <div style="
+                background:#fefce8;
+                border:1px solid #fde68a;
+                padding:14px;
+                border-radius:10px;
+                line-height:1.6;
+                color:#713f12;
+            ">
+
+            <strong>⚠️ Custom Requirement</strong><br>
+
+            ${currentPreset.note}
+
+            <br><br>
+
+            <strong>
+            PDFSetu इस requirement को fixed मानकर
+            dimensions नहीं लगा रहा है।
+            </strong>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    examInfo.innerHTML += `
+
+        <br>
+
+        <div style="
+            background:#ecfdf5;
+            border:1px solid #a7f3d0;
+            padding:14px;
+            border-radius:10px;
+            color:#065f46;
+            line-height:1.7;
+        ">
+
+        <strong>✅ Verified Preset</strong><br><br>
+
+        ${currentType === "photo" ? "📷 Photo" : "✍️ Signature"}<br>
+
+        Dimensions:
+        <strong>
+        ${currentPreset.width} ×
+        ${currentPreset.height}
+        ${currentPreset.unit}
+        </strong>
+
+        <br>
+
+        File size:
+        <strong>
+        ${currentPreset.maxKBMin || "—"}
+        –
+        ${currentPreset.maxKB}
+        KB
+        </strong>
+
+        <br>
+
+        DPI:
+        <strong>
+        ${currentPreset.dpi}
+        </strong>
+
+        <br><br>
+
+        ${currentPreset.note}
+
+        </div>
+
+    `;
+}
+
+
+/* =====================================================
+   FILE SELECT
+===================================================== */
 
 imageFile.addEventListener(
     "change",
@@ -639,36 +831,41 @@ imageFile.addEventListener(
         if(!imageFile.files.length)
             return;
 
-        const file=imageFile.files[0];
+        const file = imageFile.files[0];
 
         if(!file.type.startsWith("image/")){
 
-            status.textContent=
+            status.textContent =
             "Please select an image file.";
 
             return;
         }
 
-        const reader=new FileReader();
 
-        reader.onload=function(e){
+        const reader = new FileReader();
 
-            image=new Image();
 
-            image.onload=function(){
+        reader.onload = function(e){
+
+            image = new Image();
+
+
+            image.onload = function(){
 
                 setupCanvas();
 
-                editor.style.display="block";
+                editor.style.display = "block";
 
-                status.textContent=
+                status.textContent =
                 "Drag the image to position it correctly.";
 
             };
 
-            image.src=e.target.result;
+
+            image.src = e.target.result;
 
         };
+
 
         reader.readAsDataURL(file);
 
@@ -676,7 +873,11 @@ imageFile.addEventListener(
 );
 
 
-function cmToPixels(cm,dpi){
+/* =====================================================
+   CM TO PIXELS
+===================================================== */
+
+function cmToPixels(cm, dpi){
 
     return Math.round(
         cm * dpi / 2.54
@@ -685,45 +886,67 @@ function cmToPixels(cm,dpi){
 }
 
 
+/* =====================================================
+   CANVAS SETUP
+===================================================== */
+
 function setupCanvas(){
 
-    const p=currentPreset;
+    if(!currentPreset || !currentPreset.verified)
+        return;
 
-    const width=
+
+    const p = currentPreset;
+
+
+    const width =
         cmToPixels(
             p.width,
             p.dpi
         );
 
-    const height=
+
+    const height =
         cmToPixels(
             p.height,
             p.dpi
         );
 
-    canvas.width=width;
-    canvas.height=height;
 
-    scale=Math.max(
-        width/image.width,
-        height/image.height
+    canvas.width = width;
+    canvas.height = height;
+
+
+    scale = Math.max(
+        width / image.width,
+        height / image.height
     );
 
-    imageX=
-        (width-image.width*scale)/2;
 
-    imageY=
-        (height-image.height*scale)/2;
+    imageX =
+        (width -
+        image.width * scale) / 2;
+
+
+    imageY =
+        (height -
+        image.height * scale) / 2;
+
 
     draw();
 
 }
 
 
+/* =====================================================
+   DRAW
+===================================================== */
+
 function draw(){
 
     if(!image)
         return;
+
 
     ctx.clearRect(
         0,
@@ -732,7 +955,9 @@ function draw(){
         canvas.height
     );
 
-    ctx.fillStyle="white";
+
+    ctx.fillStyle = "white";
+
 
     ctx.fillRect(
         0,
@@ -741,38 +966,54 @@ function draw(){
         canvas.height
     );
 
+
     ctx.drawImage(
         image,
         imageX,
         imageY,
-        image.width*scale,
-        image.height*scale
+        image.width * scale,
+        image.height * scale
     );
 
 }
 
 
+/* =====================================================
+   POINTER POSITION
+===================================================== */
+
 function pointerPosition(e){
 
-    const rect=
+    const rect =
         canvas.getBoundingClientRect();
 
-    const scaleX=
-        canvas.width/rect.width;
 
-    const scaleY=
-        canvas.height/rect.height;
+    const scaleX =
+        canvas.width / rect.width;
+
+
+    const scaleY =
+        canvas.height / rect.height;
+
 
     return {
 
-        x:(e.clientX-rect.left)*scaleX,
+        x:
+        (e.clientX - rect.left)
+        * scaleX,
 
-        y:(e.clientY-rect.top)*scaleY
+        y:
+        (e.clientY - rect.top)
+        * scaleY
 
     };
 
 }
 
+
+/* =====================================================
+   DRAG
+===================================================== */
 
 canvas.addEventListener(
     "pointerdown",
@@ -781,15 +1022,25 @@ canvas.addEventListener(
         if(!image)
             return;
 
-        dragging=true;
 
-        const p=
+        dragging = true;
+
+
+        const p =
             pointerPosition(e);
 
-        startX=p.x-imageX;
-        startY=p.y-imageY;
 
-        canvas.setPointerCapture(e.pointerId);
+        startX =
+            p.x - imageX;
+
+
+        startY =
+            p.y - imageY;
+
+
+        canvas.setPointerCapture(
+            e.pointerId
+        );
 
     }
 );
@@ -802,11 +1053,18 @@ canvas.addEventListener(
         if(!dragging)
             return;
 
-        const p=
+
+        const p =
             pointerPosition(e);
 
-        imageX=p.x-startX;
-        imageY=p.y-startY;
+
+        imageX =
+            p.x - startX;
+
+
+        imageY =
+            p.y - startY;
+
 
         draw();
 
@@ -818,7 +1076,7 @@ canvas.addEventListener(
     "pointerup",
     function(){
 
-        dragging=false;
+        dragging = false;
 
     }
 );
@@ -828,11 +1086,15 @@ canvas.addEventListener(
     "pointercancel",
     function(){
 
-        dragging=false;
+        dragging = false;
 
     }
 );
 
+
+/* =====================================================
+   RESET
+===================================================== */
 
 resetBtn.addEventListener(
     "click",
@@ -841,85 +1103,109 @@ resetBtn.addEventListener(
         if(image)
             setupCanvas();
 
-        status.textContent="Reset completed.";
+        status.textContent =
+            "Reset completed.";
 
     }
 );
 
 
+/* =====================================================
+   DOWNLOAD
+===================================================== */
+
 downloadBtn.addEventListener(
     "click",
     async function(){
 
-        if(!image || !currentPreset)
-            return;
-
-        status.textContent=
-            "Preparing your image...";
-
-        /*
-        Start with high quality JPEG.
-        Then reduce quality until the
-        required KB limit is reached.
-        */
-
-        const maxKB=
-            currentPreset.maxKB;
-
-        let quality=0.95;
-
-        let blob=
-            await canvasToBlob(quality);
-
-        while(
-            blob.size >
-            maxKB*1024 &&
-            quality>0.10
+        if(
+            !image ||
+            !currentPreset ||
+            !currentPreset.verified
         ){
 
-            quality-=0.05;
+            status.textContent =
+            "पहले verified requirement वाला exam/type चुनें।";
 
-            blob=
+            return;
+        }
+
+
+        status.textContent =
+            "Preparing your image...";
+
+
+        const maxKB =
+            currentPreset.maxKB;
+
+
+        let quality = 0.95;
+
+
+        let blob =
+            await canvasToBlob(quality);
+
+
+        while(
+            blob.size > maxKB * 1024 &&
+            quality > 0.10
+        ){
+
+            quality -= 0.05;
+
+
+            blob =
                 await canvasToBlob(
                     quality
                 );
 
         }
 
-        if(blob.size > maxKB*1024){
 
-            status.textContent=
-                "Image could not be reduced below " +
-                maxKB +
-                " KB without excessive quality loss. " +
-                "Try a simpler image.";
+        if(
+            blob.size >
+            maxKB * 1024
+        ){
+
+            status.textContent =
+            "Image could not be reduced below " +
+            maxKB +
+            " KB without excessive quality loss.";
 
             return;
-
         }
 
-        const url=
+
+        const url =
             URL.createObjectURL(blob);
 
-        const a=
+
+        const a =
             document.createElement("a");
 
-        a.href=url;
 
-        a.download=
-            currentType==="photo"
+        a.href = url;
+
+
+        a.download =
+            currentType === "photo"
             ? "PDFSetu-Photo.jpg"
             : "PDFSetu-Signature.jpg";
 
+
         document.body.appendChild(a);
+
 
         a.click();
 
+
         a.remove();
+
 
         URL.revokeObjectURL(url);
 
-        status.textContent=
+
+        status.textContent =
             "Done! File size: " +
             formatKB(blob.size);
 
@@ -927,10 +1213,14 @@ downloadBtn.addEventListener(
 );
 
 
+/* =====================================================
+   CANVAS TO BLOB
+===================================================== */
+
 function canvasToBlob(quality){
 
     return new Promise(
-        resolve=>{
+        resolve => {
 
             canvas.toBlob(
                 resolve,
@@ -944,14 +1234,19 @@ function canvasToBlob(quality){
 }
 
 
+/* =====================================================
+   FORMAT KB
+===================================================== */
+
 function formatKB(bytes){
 
     return (
-        bytes/1024
+        bytes / 1024
     ).toFixed(1)
     + " KB";
 
 }
 
-</script></body>
+</script>
+</body>
   </html>
