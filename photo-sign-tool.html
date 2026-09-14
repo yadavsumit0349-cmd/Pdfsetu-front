@@ -1649,7 +1649,125 @@ function formatKB(bytes){
     + " KB";
 
 }
+applyCustomBtn.addEventListener(
+    "click",
+    function(){
 
+        const width =
+            parseFloat(customWidth.value);
+
+        const height =
+            parseFloat(customHeight.value);
+
+        const maxKB =
+            parseInt(customMaxKB.value);
+
+        const dpi =
+            parseInt(customDPI.value);
+
+        const unit =
+            customUnit.value;
+
+
+        if(
+            !width ||
+            !height ||
+            !maxKB ||
+            !dpi ||
+            width <= 0 ||
+            height <= 0 ||
+            maxKB <= 0 ||
+            dpi <= 0
+        ){
+
+            status.textContent =
+                "Please enter all custom requirements.";
+
+            return;
+        }
+
+
+        currentPreset = {
+
+            verified: true,
+
+            custom: true,
+
+            width: width,
+
+            height: height,
+
+            unit: unit,
+
+            maxKB: maxKB,
+
+            dpi: dpi
+
+        };
+
+
+        customSettings.style.display =
+            "none";
+
+        uploadSection.style.display =
+            "block";
+
+
+        uploadText.textContent =
+            currentType === "photo"
+            ? "Select your photograph."
+            : "Select your signature.";
+
+
+        examInfo.innerHTML += `
+
+            <br>
+
+            <div style="
+                background:#ecfdf5;
+                border:1px solid #a7f3d0;
+                padding:14px;
+                border-radius:10px;
+                color:#065f46;
+                line-height:1.7;
+            ">
+
+                <strong>✅ Custom Requirement Applied</strong><br><br>
+
+                ${currentType === "photo"
+                    ? "📷 Photo"
+                    : "✍️ Signature"}
+
+                <br>
+
+                Dimensions:
+                <strong>
+                    ${width} × ${height} ${unit}
+                </strong>
+
+                <br>
+
+                Maximum file size:
+                <strong>
+                    ${maxKB} KB
+                </strong>
+
+                <br>
+
+                DPI:
+                <strong>
+                    ${dpi}
+                </strong>
+
+            </div>
+
+        `;
+
+        status.textContent =
+            "Custom requirement applied. Now choose your image.";
+
+    }
+);
 </script>
 </body>
   </html>
