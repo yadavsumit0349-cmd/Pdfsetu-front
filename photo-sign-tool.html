@@ -1,0 +1,957 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Exam Photo & Signature Tool - PDFSetu</title><link rel="icon" type="image/png" href="favicon.png"><style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f7fb;
+    color:#1f2937;
+}
+
+header{
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+    padding:15px 20px;
+}
+
+.header-inner{
+    max-width:1000px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+}
+
+.brand{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.container{
+    max-width:900px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.back{
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:600;
+    display:inline-block;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+h1{
+    text-align:center;
+    margin:0 0 10px;
+    font-size:31px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#6b7280;
+    margin-bottom:25px;
+}
+
+.warning{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    color:#9a3412;
+    padding:15px;
+    border-radius:12px;
+    line-height:1.55;
+    margin-bottom:25px;
+    font-size:14px;
+}
+
+.section{
+    margin-top:22px;
+}
+
+.section-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+select,
+input[type="file"]{
+    width:100%;
+}
+
+select{
+    padding:13px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    background:white;
+    font-size:15px;
+}
+
+.tool-tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:15px;
+}
+
+.tab{
+    border:1px solid #d1d5db;
+    padding:14px;
+    border-radius:10px;
+    background:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.tab.active{
+    border-color:#2563eb;
+    background:#eff6ff;
+    color:#1d4ed8;
+}
+
+.requirement{
+    background:#f3f4f6;
+    border-radius:12px;
+    padding:16px;
+    margin-top:15px;
+    line-height:1.7;
+}
+
+.upload{
+    margin-top:20px;
+    border:2px dashed #2563eb;
+    border-radius:14px;
+    padding:30px 20px;
+    text-align:center;
+}
+
+input[type="file"]{
+    display:none;
+}
+
+.choose{
+    display:inline-block;
+    background:#2563eb;
+    color:white;
+    padding:13px 23px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.editor{
+    display:none;
+    margin-top:22px;
+}
+
+.canvas-wrap{
+    width:100%;
+    overflow:hidden;
+    background:#111827;
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+}
+
+canvas{
+    max-width:100%;
+    background:white;
+    touch-action:none;
+    cursor:grab;
+}
+
+canvas:active{
+    cursor:grabbing;
+}
+
+.help{
+    color:#6b7280;
+    font-size:13px;
+    margin-top:9px;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:18px;
+}
+
+button{
+    padding:13px;
+    border:none;
+    border-radius:9px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.reset{
+    background:#e5e7eb;
+    color:#374151;
+}
+
+.download{
+    background:#16a34a;
+    color:white;
+}
+
+.download:disabled{
+    background:#9ca3af;
+    cursor:not-allowed;
+}
+
+.status{
+    text-align:center;
+    margin-top:15px;
+    font-size:14px;
+}
+
+footer{
+    text-align:center;
+    padding:30px 15px;
+    color:#6b7280;
+}
+
+footer a{
+    color:#2563eb;
+    text-decoration:none;
+    margin:0 7px;
+}
+
+@media(max-width:600px){
+
+    .container{
+        padding:15px;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    h1{
+        font-size:27px;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+}
+</style></head><body><header>
+<div class="header-inner">
+<img src="favicon.png" class="logo" alt="PDFSetu">
+<div class="brand">PDFSetu</div>
+</div>
+</header><div class="container"><a href="index.html" class="back">
+← Back to PDFSetu
+</a><div class="card"><h1>Exam Photo & Signature Tool</h1><p class="subtitle">
+Prepare your photo and signature for online exam applications.
+</p><div class="warning">
+<strong>⚠️ Important:</strong><br>
+Photo/Signature की dimensions, file size, format और upload method
+exam तथा notification के अनुसार बदल सकते हैं। Form submit करने से पहले
+अपने exam की <strong>current official notification और application instructions
+एक बार जरूर verify करें.</strong>
+PDFSetu केवल preparation में सहायता करता है।
+</div><div class="section"><div class="section-title">
+1. Select Exam
+</div><select id="exam"><option value="">
+-- Select an Exam --
+</option><option value="uppsc">
+UPPSC
+</option><option value="upsc">
+UPSC
+</option><option value="ssc">
+SSC
+</option><option value="ibps">
+IBPS / Banking
+</option><option value="up-police">
+UP Police
+</option><option value="upsssc">
+UPSSSC
+</option><option value="army">
+Indian Army / Agniveer
+</option><option value="bsf">
+BSF
+</option><option value="capf">
+CAPF / Other Paramilitary
+</option><option value="railway">
+Railway / RRB
+</option><option value="other">
+Other Exam
+</option></select></div><div id="examInfo" class="requirement" style="display:none;"></div><div id="toolSection" style="display:none;"><div class="section"><div class="section-title">
+2. What do you want to prepare?
+</div><div class="tool-tabs"><button class="tab active" id="photoTab">
+📷 Photo
+</button><button class="tab" id="signatureTab">
+✍️ Signature
+</button></div></div><div id="uploadSection" class="upload"><p id="uploadText">
+Select your image.
+</p><label for="imageFile" class="choose">
+Choose Image
+</label><input
+type="file"
+id="imageFile"
+accept="image/jpeg,image/jpg,image/png"
+
+«»
+
+<p class="help">
+JPG/JPEG recommended unless your exam notification says otherwise.
+</p></div><div id="editor" class="editor"><div class="canvas-wrap">
+<canvas id="canvas"></canvas>
+</div><p class="help">
+Image को उंगली से drag करके box के अंदर सही जगह पर सेट करें।
+</p><div class="actions"><button class="reset" id="resetBtn">
+Reset
+</button><button class="download" id="downloadBtn">
+Download
+</button></div></div><div id="status" class="status"></div></div></div></div><footer><a href="about.html">About Us</a>
+<a href="contact.html">Contact Us</a>
+<a href="terms.html">Terms & Conditions</a>
+
+<p>
+© 2026 PDFSetu
+</p></footer><script>
+
+const exam = document.getElementById("exam");
+const examInfo = document.getElementById("examInfo");
+const toolSection = document.getElementById("toolSection");
+
+const photoTab = document.getElementById("photoTab");
+const signatureTab = document.getElementById("signatureTab");
+
+const imageFile = document.getElementById("imageFile");
+const uploadText = document.getElementById("uploadText");
+
+const editor = document.getElementById("editor");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const resetBtn = document.getElementById("resetBtn");
+const downloadBtn = document.getElementById("downloadBtn");
+
+const status = document.getElementById("status");
+
+let currentType = "photo";
+let currentPreset = null;
+
+let image = null;
+
+let imageX = 0;
+let imageY = 0;
+
+let scale = 1;
+
+let dragging = false;
+let startX = 0;
+let startY = 0;
+
+
+/*
+========================================
+EXAM PRESETS
+========================================
+
+Only verified requirements are entered
+as fixed presets.
+
+For exams whose current requirement
+needs notification-specific verification,
+the tool does NOT invent dimensions.
+*/
+
+const presets = {
+
+    uppsc: {
+        name:"UPPSC",
+        photo:{
+            width:5,
+            height:6,
+            unit:"cm",
+            maxKB:50,
+            dpi:200
+        },
+        signature:{
+            width:6,
+            height:3,
+            unit:"cm",
+            maxKB:30,
+            dpi:200
+        }
+    },
+
+    upsc:{
+        name:"UPSC",
+        photo:null,
+        signature:null,
+        note:
+        "UPSC requirements can be application-specific. " +
+        "Please verify the current UPSC application instructions."
+    },
+
+    ssc:{
+        name:"SSC",
+        photo:null,
+        signature:null,
+        note:
+        "SSC photo requirements can include live photograph " +
+        "depending on the examination. Verify the current SSC notice."
+    },
+
+    ibps:{
+        name:"IBPS / Banking",
+        photo:null,
+        signature:null,
+        note:
+        "Banking recruitment requirements can differ by notification. " +
+        "Verify the current IBPS notification."
+    },
+
+    "up-police":{
+        name:"UP Police",
+        photo:null,
+        signature:null,
+        note:
+        "UP Police requirements vary by recruitment notification. " +
+        "Verify the current UPPRPB notification."
+    },
+
+    upsssc:{
+        name:"UPSSSC",
+        photo:null,
+        signature:null,
+        note:
+        "UPSSSC requirements can differ by recruitment. " +
+        "Verify the current notification."
+    },
+
+    army:{
+        name:"Indian Army / Agniveer",
+        photo:null,
+        signature:null,
+        note:
+        "Army recruitment requirements can differ by recruitment cycle. " +
+        "Verify the current official notification."
+    },
+
+    bsf:{
+        name:"BSF",
+        photo:null,
+        signature:null,
+        note:
+        "BSF requirements can differ by recruitment. " +
+        "Verify the current official notification."
+    },
+
+    capf:{
+        name:"CAPF / Other Paramilitary",
+        photo:null,
+        signature:null,
+        note:
+        "CAPF/paramilitary requirements can differ by examination. " +
+        "Verify the current official notification."
+    },
+
+    railway:{
+        name:"Railway / RRB",
+        photo:null,
+        signature:null,
+        note:
+        "RRB requirements can differ by recruitment. " +
+        "Verify the current official notification."
+    },
+
+    other:{
+        name:"Other Exam",
+        photo:null,
+        signature:null,
+        note:
+        "Enter the requirements according to your current official notification."
+    }
+
+};
+
+
+function showExam(){
+
+    const value = exam.value;
+
+    if(!value){
+
+        toolSection.style.display="none";
+        examInfo.style.display="none";
+
+        return;
+    }
+
+    const data = presets[value];
+
+    toolSection.style.display="block";
+    examInfo.style.display="block";
+
+    if(data.photo || data.signature){
+
+        let html = "<strong>" + data.name + "</strong><br><br>";
+
+        if(data.photo){
+
+            html +=
+            "📷 Photo: " +
+            data.photo.width + " × " +
+            data.photo.height + " " +
+            data.photo.unit +
+            " | < " +
+            data.photo.maxKB +
+            " KB | " +
+            data.photo.dpi +
+            " DPI<br>";
+        }
+
+        if(data.signature){
+
+            html +=
+            "✍️ Signature: " +
+            data.signature.width + " × " +
+            data.signature.height + " " +
+            data.signature.unit +
+            " | < " +
+            data.signature.maxKB +
+            " KB | " +
+            data.signature.dpi +
+            " DPI";
+        }
+
+        examInfo.innerHTML=html;
+
+    }else{
+
+        examInfo.innerHTML =
+        "<strong>" + data.name + "</strong><br><br>" +
+        "ℹ️ इस exam के लिए इस version में कोई fixed " +
+        "unverified preset नहीं लगाया गया है।<br><br>" +
+        "<strong>" +
+        data.note +
+        "</strong>";
+
+    }
+
+    selectType("photo");
+}
+
+
+exam.addEventListener("change",showExam);
+
+
+function selectType(type){
+
+    currentType=type;
+
+    const data=presets[exam.value];
+
+    currentPreset =
+        data ? data[type] : null;
+
+    editor.style.display="none";
+    imageFile.value="";
+    image=null;
+    status.textContent="";
+
+    if(type==="photo"){
+
+        photoTab.classList.add("active");
+        signatureTab.classList.remove("active");
+
+    }else{
+
+        signatureTab.classList.add("active");
+        photoTab.classList.remove("active");
+
+    }
+
+    /*
+    If no verified preset exists,
+    do not pretend that the tool knows
+    the exact requirement.
+    */
+
+    if(!currentPreset){
+
+        uploadSection.style.display="none";
+
+        if(
+            exam.value==="ssc" &&
+            type==="photo"
+        ){
+
+            examInfo.innerHTML +=
+            "<br><br>📷 <strong>Live/static photo method " +
+            "notification के अनुसार verify करें.</strong>";
+
+        }
+
+        return;
+    }
+
+    uploadSection.style.display="block";
+
+    uploadText.textContent =
+        type==="photo"
+        ? "Select your photograph."
+        : "Select your signature.";
+
+}
+
+
+photoTab.addEventListener(
+    "click",
+    ()=>selectType("photo")
+);
+
+signatureTab.addEventListener(
+    "click",
+    ()=>selectType("signature")
+);
+
+
+imageFile.addEventListener(
+    "change",
+    function(){
+
+        if(!imageFile.files.length)
+            return;
+
+        const file=imageFile.files[0];
+
+        if(!file.type.startsWith("image/")){
+
+            status.textContent=
+            "Please select an image file.";
+
+            return;
+        }
+
+        const reader=new FileReader();
+
+        reader.onload=function(e){
+
+            image=new Image();
+
+            image.onload=function(){
+
+                setupCanvas();
+
+                editor.style.display="block";
+
+                status.textContent=
+                "Drag the image to position it correctly.";
+
+            };
+
+            image.src=e.target.result;
+
+        };
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+function cmToPixels(cm,dpi){
+
+    return Math.round(
+        cm * dpi / 2.54
+    );
+
+}
+
+
+function setupCanvas(){
+
+    const p=currentPreset;
+
+    const width=
+        cmToPixels(
+            p.width,
+            p.dpi
+        );
+
+    const height=
+        cmToPixels(
+            p.height,
+            p.dpi
+        );
+
+    canvas.width=width;
+    canvas.height=height;
+
+    scale=Math.max(
+        width/image.width,
+        height/image.height
+    );
+
+    imageX=
+        (width-image.width*scale)/2;
+
+    imageY=
+        (height-image.height*scale)/2;
+
+    draw();
+
+}
+
+
+function draw(){
+
+    if(!image)
+        return;
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.fillStyle="white";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.drawImage(
+        image,
+        imageX,
+        imageY,
+        image.width*scale,
+        image.height*scale
+    );
+
+}
+
+
+function pointerPosition(e){
+
+    const rect=
+        canvas.getBoundingClientRect();
+
+    const scaleX=
+        canvas.width/rect.width;
+
+    const scaleY=
+        canvas.height/rect.height;
+
+    return {
+
+        x:(e.clientX-rect.left)*scaleX,
+
+        y:(e.clientY-rect.top)*scaleY
+
+    };
+
+}
+
+
+canvas.addEventListener(
+    "pointerdown",
+    function(e){
+
+        if(!image)
+            return;
+
+        dragging=true;
+
+        const p=
+            pointerPosition(e);
+
+        startX=p.x-imageX;
+        startY=p.y-imageY;
+
+        canvas.setPointerCapture(e.pointerId);
+
+    }
+);
+
+
+canvas.addEventListener(
+    "pointermove",
+    function(e){
+
+        if(!dragging)
+            return;
+
+        const p=
+            pointerPosition(e);
+
+        imageX=p.x-startX;
+        imageY=p.y-startY;
+
+        draw();
+
+    }
+);
+
+
+canvas.addEventListener(
+    "pointerup",
+    function(){
+
+        dragging=false;
+
+    }
+);
+
+
+canvas.addEventListener(
+    "pointercancel",
+    function(){
+
+        dragging=false;
+
+    }
+);
+
+
+resetBtn.addEventListener(
+    "click",
+    function(){
+
+        if(image)
+            setupCanvas();
+
+        status.textContent="Reset completed.";
+
+    }
+);
+
+
+downloadBtn.addEventListener(
+    "click",
+    async function(){
+
+        if(!image || !currentPreset)
+            return;
+
+        status.textContent=
+            "Preparing your image...";
+
+        /*
+        Start with high quality JPEG.
+        Then reduce quality until the
+        required KB limit is reached.
+        */
+
+        const maxKB=
+            currentPreset.maxKB;
+
+        let quality=0.95;
+
+        let blob=
+            await canvasToBlob(quality);
+
+        while(
+            blob.size >
+            maxKB*1024 &&
+            quality>0.10
+        ){
+
+            quality-=0.05;
+
+            blob=
+                await canvasToBlob(
+                    quality
+                );
+
+        }
+
+        if(blob.size > maxKB*1024){
+
+            status.textContent=
+                "Image could not be reduced below " +
+                maxKB +
+                " KB without excessive quality loss. " +
+                "Try a simpler image.";
+
+            return;
+
+        }
+
+        const url=
+            URL.createObjectURL(blob);
+
+        const a=
+            document.createElement("a");
+
+        a.href=url;
+
+        a.download=
+            currentType==="photo"
+            ? "PDFSetu-Photo.jpg"
+            : "PDFSetu-Signature.jpg";
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+        URL.revokeObjectURL(url);
+
+        status.textContent=
+            "Done! File size: " +
+            formatKB(blob.size);
+
+    }
+);
+
+
+function canvasToBlob(quality){
+
+    return new Promise(
+        resolve=>{
+
+            canvas.toBlob(
+                resolve,
+                "image/jpeg",
+                quality
+            );
+
+        }
+    );
+
+}
+
+
+function formatKB(bytes){
+
+    return (
+        bytes/1024
+    ).toFixed(1)
+    + " KB";
+
+}
+
+</script></body>
+  </html>
