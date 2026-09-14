@@ -1032,10 +1032,16 @@ function setupCanvas(){
     canvas.height = height;
 
 
-    scale = Math.max(
+        baseScale = Math.max(
         width / image.width,
         height / image.height
     );
+
+    zoom = 1;
+
+    scale = baseScale;
+
+    updateZoom();
 
 
     imageX =
