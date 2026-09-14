@@ -551,7 +551,70 @@ const applyCustomBtn =
 let currentType = "photo";
 let currentPreset = null;
 let image = null;
+applyCustomBtn.addEventListener("click", function(){
 
+    const width = parseFloat(customWidth.value);
+    const height = parseFloat(customHeight.value);
+    const maxKB = parseInt(customMaxKB.value);
+    const dpi = parseInt(customDPI.value);
+
+    if(!width || !height || !maxKB || !dpi){
+
+        status.textContent =
+            "Please enter all custom requirements.";
+
+        return;
+    }
+
+    currentPreset = {
+        verified: true,
+        width: width,
+        height: height,
+        unit: customUnit.value,
+        maxKB: maxKB,
+        dpi: dpi
+    };
+
+    customSettings.style.display = "none";
+    uploadSection.style.display = "block";
+
+    uploadText.textContent =
+        currentType === "photo"
+        ? "Select your photograph."
+        : "Select your signature.";
+
+    examInfo.innerHTML += `
+        <br>
+        <div style="
+            background:#ecfdf5;
+            border:1px solid #a7f3d0;
+            padding:14px;
+            border-radius:10px;
+            color:#065f46;
+            line-height:1.7;
+        ">
+        <strong>✅ Custom Requirement Applied</strong><br><br>
+
+        Dimensions:
+        <strong>${width} × ${height} ${customUnit.value}</strong><br>
+
+        Maximum Size:
+        <strong>${maxKB} KB</strong><br>
+
+        DPI:
+        <strong>${dpi}</strong>
+
+        <br><br>
+
+        ⚠️ Candidate: Download करने से पहले
+        current official notification से requirement verify करें।
+        </div>
+    `;
+
+    status.textContent =
+        "Custom requirement applied.";
+
+});
 let imageX = 0;
 let imageY = 0;
 let scale = 1;
