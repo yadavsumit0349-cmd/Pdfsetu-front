@@ -43,9 +43,9 @@
 
 <style>
 
-/* =========================================
-   BASIC
-========================================= */
+/* =====================================================
+   RESET
+===================================================== */
 
 * {
   margin: 0;
@@ -53,46 +53,57 @@
   box-sizing: border-box;
 }
 
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
 :root {
 
-  --dark: #10234d;
+  --dark: #10244d;
+
+  --dark2: #17376f;
 
   --blue: #2563eb;
 
-  --blue-dark: #1d4ed8;
+  --blue2: #1d4ed8;
 
-  --light-blue: #eaf2ff;
+  --light-blue: #eef5ff;
 
   --background: #f7f9fd;
 
   --white: #ffffff;
 
-  --gray: #66748a;
+  --gray: #64748b;
 
-  --border: #e1e7f0;
+  --border: #dfe6f1;
 
-  --orange: #ff9b45;
+  --orange: #ff9a3d;
 
 }
 
-html {
-  scroll-behavior: smooth;
-}
+
+/* =====================================================
+   BODY
+===================================================== */
 
 body {
 
-  font-family: Arial, sans-serif;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
   background: var(--background);
 
-  color: #172033;
+  color: #172554;
 
 }
 
 
-/* =========================================
+/* =====================================================
    HEADER
-========================================= */
+===================================================== */
 
 header {
 
@@ -100,15 +111,15 @@ header {
 
   background: white;
 
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e6eaf0;
 
   display: flex;
 
-  justify-content: space-between;
-
   align-items: center;
 
-  padding: 0 5.5%;
+  justify-content: space-between;
+
+  padding: 0 5%;
 
   position: sticky;
 
@@ -118,17 +129,19 @@ header {
 
 }
 
+
 .logo {
 
-  font-size: 30px;
+  font-size: 32px;
 
   font-weight: 800;
 
   color: var(--dark);
 
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
 
 }
+
 
 .logo span {
 
@@ -136,19 +149,23 @@ header {
 
 }
 
+
 nav {
 
   display: flex;
 
-  gap: 32px;
+  align-items: center;
+
+  gap: 35px;
 
 }
 
+
 nav a {
 
-  color: #26344d;
-
   text-decoration: none;
+
+  color: #172554;
 
   font-size: 14px;
 
@@ -156,7 +173,10 @@ nav a {
 
   cursor: pointer;
 
+  transition: 0.2s;
+
 }
+
 
 nav a:hover {
 
@@ -165,9 +185,9 @@ nav a:hover {
 }
 
 
-/* =========================================
+/* =====================================================
    HERO
-========================================= */
+===================================================== */
 
 .hero {
 
@@ -175,20 +195,23 @@ nav a:hover {
 
   overflow: hidden;
 
-  text-align: center;
+  background:
+    linear-gradient(
+      135deg,
+      #122b5c,
+      #2459a7
+    );
 
   color: white;
 
-  padding: 52px 20px 38px;
+  text-align: center;
 
-  background:
-    linear-gradient(
-      120deg,
-      #142b59,
-      #2461bd
-    );
+  padding: 42px 20px 35px;
 
 }
+
+
+/* decorative wave */
 
 .hero::before {
 
@@ -200,33 +223,11 @@ nav a:hover {
 
   height: 180px;
 
-  left: -200px;
+  left: -170px;
 
-  bottom: -100px;
+  bottom: -110px;
 
-  background: rgba(72,135,240,.25);
-
-  border-radius: 50%;
-
-  transform: rotate(-10deg);
-
-}
-
-.hero::after {
-
-  content: "";
-
-  position: absolute;
-
-  width: 600px;
-
-  height: 180px;
-
-  right: -220px;
-
-  top: 40px;
-
-  background: rgba(73,137,239,.22);
+  background: rgba(60, 120, 220, 0.25);
 
   border-radius: 50%;
 
@@ -234,19 +235,44 @@ nav a:hover {
 
 }
 
+
+.hero::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+
+  height: 160px;
+
+  right: -180px;
+
+  top: 45px;
+
+  background: rgba(70, 130, 230, 0.22);
+
+  border-radius: 50%;
+
+  transform: rotate(-18deg);
+
+}
+
+
 .hero h1 {
 
   position: relative;
 
   z-index: 2;
 
-  font-size: 40px;
-
-  font-weight: 800;
+  font-size: 38px;
 
   margin-bottom: 12px;
 
+  font-weight: 800;
+
 }
+
 
 .hero p {
 
@@ -254,23 +280,28 @@ nav a:hover {
 
   z-index: 2;
 
-  max-width: 720px;
+  max-width: 700px;
 
   margin: auto;
 
-  color: #dce8ff;
+  color: #e4edff;
 
-  font-size: 16px;
+  line-height: 1.55;
 
-  line-height: 1.6;
+  font-size: 17px;
 
 }
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
 
 .search-box {
 
   position: relative;
 
-  z-index: 2;
+  z-index: 3;
 
   max-width: 720px;
 
@@ -286,10 +317,24 @@ nav a:hover {
 
   display: flex;
 
+  align-items: center;
+
   box-shadow:
-    0 10px 30px rgba(0,0,0,.12);
+    0 8px 25px rgba(0,0,0,0.12);
 
 }
+
+
+.search-icon {
+
+  width: 48px;
+
+  font-size: 23px;
+
+  color: #18325e;
+
+}
+
 
 .search-box input {
 
@@ -299,89 +344,91 @@ nav a:hover {
 
   outline: none;
 
-  padding: 0 17px;
-
   font-size: 15px;
+
+  color: #172554;
+
+  min-width: 0;
 
 }
 
+
+.search-box input::placeholder {
+
+  color: #718096;
+
+}
+
+
 .search-box button {
 
+  height: 46px;
+
+  padding: 0 25px;
+
   border: none;
+
+  border-radius: 11px;
 
   background: var(--blue);
 
   color: white;
 
-  padding: 0 24px;
+  font-size: 15px;
 
-  border-radius: 10px;
-
-  font-weight: bold;
+  font-weight: 700;
 
   cursor: pointer;
 
 }
 
+
 .search-box button:hover {
 
-  background: var(--blue-dark);
+  background: var(--blue2);
 
 }
 
 
-/* =========================================
-   MAIN
-========================================= */
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
 
 .container {
 
-  max-width: 1200px;
+  max-width: 1180px;
 
   margin: auto;
 
-  padding: 32px 20px 50px;
-
-}
-
-.title {
-
-  text-align: center;
-
-  color: var(--dark);
-
-  font-size: 32px;
-
-  font-weight: 800;
-
-}
-
-.subtitle {
-
-  text-align: center;
-
-  color: var(--gray);
-
-  margin-top: 9px;
-
-  font-size: 15px;
+  padding: 30px 20px 50px;
 
 }
 
 
-/* =========================================
-   FEATURED EXAM TOOL
-========================================= */
+/* =====================================================
+   FEATURED TOOL
+===================================================== */
 
 .featured-tool {
 
-  max-width: 1110px;
+  position: relative;
 
-  min-height: 205px;
+  overflow: hidden;
 
-  margin: 30px auto 38px;
+  margin: 0 0 45px;
 
-  padding: 32px;
+  padding: 30px 32px;
+
+  border: 1px solid #74a1e9;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      110deg,
+      #f3f7ff,
+      #eaf2ff
+    );
 
   display: flex;
 
@@ -391,22 +438,32 @@ nav a:hover {
 
   gap: 30px;
 
-  background:
-    radial-gradient(
-      circle at 95% 5%,
-      rgba(37,99,235,.12),
-      transparent 28%
-    ),
-    #f2f7ff;
-
-  border: 1px solid #83b0f4;
-
-  border-radius: 20px;
-
   box-shadow:
-    0 10px 30px rgba(37,99,235,.08);
+    0 12px 30px rgba(36, 89, 167, 0.08);
 
 }
+
+
+.featured-tool::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 210px;
+
+  height: 210px;
+
+  right: -80px;
+
+  top: -80px;
+
+  border-radius: 50%;
+
+  background: rgba(37,99,235,0.06);
+
+}
+
 
 .featured-content {
 
@@ -414,55 +471,67 @@ nav a:hover {
 
   align-items: center;
 
-  gap: 28px;
+  gap: 30px;
+
+  position: relative;
+
+  z-index: 2;
 
   flex: 1;
 
 }
 
+
 .featured-icon {
 
-  width: 105px;
+  width: 110px;
 
-  height: 105px;
+  height: 110px;
 
   flex-shrink: 0;
+
+  border-radius: 22px;
+
+  background: #dceaff;
 
   display: grid;
 
   place-items: center;
 
-  border-radius: 21px;
-
-  background: #dceaff;
-
-  font-size: 52px;
+  font-size: 54px;
 
 }
 
+
 .featured-text h3 {
 
-  color: #10234d;
+  font-size: 30px;
 
-  font-size: 28px;
+  color: #102858;
 
   margin-bottom: 10px;
 
 }
 
+
 .featured-text p {
 
-  max-width: 520px;
+  color: #61708a;
 
-  color: #60708a;
+  font-size: 16px;
 
-  font-size: 15px;
+  line-height: 1.55;
 
-  line-height: 1.6;
+  max-width: 540px;
 
 }
 
+
 .featured-button {
+
+  position: relative;
+
+  z-index: 3;
 
   display: inline-flex;
 
@@ -470,49 +539,70 @@ nav a:hover {
 
   justify-content: center;
 
-  min-width: 190px;
+  gap: 8px;
 
-  padding: 15px 22px;
+  min-width: 175px;
+
+  padding: 15px 25px;
+
+  border-radius: 12px;
 
   background: var(--blue);
 
   color: white;
 
-  border-radius: 11px;
-
   text-decoration: none;
 
-  font-weight: bold;
+  font-size: 16px;
 
-  font-size: 15px;
+  font-weight: 700;
 
   box-shadow:
-    0 7px 17px rgba(37,99,235,.20);
-
-  transition: .2s;
+    0 8px 18px rgba(37,99,235,0.22);
 
 }
 
-.featured-button::after {
-
-  content: " →";
-
-  font-size: 20px;
-
-}
 
 .featured-button:hover {
 
-  background: var(--blue-dark);
-
-  transform: translateY(-2px);
+  background: var(--blue2);
 
 }
 
 
-/* =========================================
+/* =====================================================
+   TITLES
+===================================================== */
+
+.title {
+
+  text-align: center;
+
+  font-size: 34px;
+
+  color: #102858;
+
+  margin-bottom: 8px;
+
+}
+
+
+.subtitle {
+
+  text-align: center;
+
+  color: #66758d;
+
+  font-size: 16px;
+
+  margin-bottom: 22px;
+
+}
+
+
+/* =====================================================
    FILTERS
-========================================= */
+===================================================== */
 
 .filters {
 
@@ -520,35 +610,39 @@ nav a:hover {
 
   justify-content: center;
 
+  align-items: center;
+
+  gap: 12px;
+
   flex-wrap: wrap;
 
-  gap: 10px;
-
-  margin: 0 auto 30px;
+  margin: 25px 0 30px;
 
 }
+
 
 .filter {
 
-  padding: 11px 19px;
+  border: 1px solid #e0e6ef;
 
   background: white;
 
-  border: 1px solid var(--border);
+  color: #172554;
 
-  border-radius: 25px;
+  border-radius: 30px;
 
-  color: #26344d;
+  padding: 11px 24px;
 
   font-size: 14px;
 
-  font-weight: bold;
+  font-weight: 700;
 
   cursor: pointer;
 
-  transition: .2s;
+  transition: 0.2s;
 
 }
+
 
 .filter:hover {
 
@@ -558,26 +652,23 @@ nav a:hover {
 
 }
 
+
 .filter.active {
 
-  background: var(--dark);
-
-  border-color: var(--dark);
+  background: #112653;
 
   color: white;
+
+  border-color: #112653;
 
 }
 
 
-/* =========================================
-   TOOL GRID
-========================================= */
+/* =====================================================
+   TOOLS GRID
+===================================================== */
 
 .tools-grid {
-
-  max-width: 1110px;
-
-  margin: auto;
 
   display: grid;
 
@@ -589,124 +680,175 @@ nav a:hover {
 }
 
 
-/* =========================================
+/* =====================================================
    TOOL CARD
-========================================= */
+===================================================== */
 
 .tool-card {
 
   position: relative;
 
-  min-height: 190px;
+  min-height: 205px;
 
-  padding: 21px;
+  padding: 22px;
 
   background: white;
 
-  border: 1px solid var(--border);
+  border: 1px solid #e1e7f0;
 
-  border-radius: 16px;
+  border-radius: 15px;
 
   cursor: pointer;
 
-  box-shadow:
-    0 4px 14px rgba(20,40,80,.04);
-
-  transition: .22s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
 
 }
+
 
 .tool-card:hover {
 
   transform: translateY(-4px);
 
-  border-color: #8bb5f5;
+  border-color: #8bb1ee;
 
   box-shadow:
-    0 12px 28px rgba(37,99,235,.10);
+    0 12px 25px rgba(30,64,120,0.10);
 
 }
 
-.icon {
 
-  width: 55px;
+.tool-icon {
 
-  height: 55px;
+  width: 54px;
+
+  height: 54px;
+
+  border-radius: 14px;
 
   display: grid;
 
   place-items: center;
 
-  border-radius: 14px;
+  font-size: 27px;
+
+  margin-bottom: 17px;
 
   background: var(--light-blue);
 
-  font-size: 27px;
-
 }
+
 
 .tool-card h3 {
 
-  color: var(--dark);
+  color: #102858;
 
   font-size: 18px;
 
-  margin: 14px 0 7px;
+  margin-bottom: 8px;
 
 }
 
+
 .tool-card p {
 
-  max-width: 245px;
-
-  color: var(--gray);
+  color: #66758d;
 
   font-size: 14px;
 
   line-height: 1.5;
 
+  max-width: 240px;
+
 }
 
-.tool-card::after {
 
-  content: "→";
+.tool-arrow {
 
   position: absolute;
 
   right: 18px;
 
-  bottom: 17px;
+  bottom: 18px;
 
-  width: 34px;
+  width: 35px;
 
-  height: 34px;
+  height: 35px;
+
+  border-radius: 50%;
+
+  background: #edf4ff;
 
   display: grid;
 
   place-items: center;
 
-  background: #edf4ff;
+  color: #102858;
 
-  color: var(--dark);
-
-  border-radius: 50%;
-
-  font-size: 20px;
+  font-size: 19px;
 
 }
 
 
-/* =========================================
+/* different icon backgrounds */
+
+.tool-card:nth-child(3n+1)
+.tool-icon {
+
+  background: #e4efff;
+
+}
+
+
+.tool-card:nth-child(3n+2)
+.tool-icon {
+
+  background: #f1e8ff;
+
+}
+
+
+.tool-card:nth-child(3n)
+.tool-icon {
+
+  background: #e2f8ee;
+
+}
+
+
+/* =====================================================
+   NO RESULT
+===================================================== */
+
+.no-results {
+
+  text-align: center;
+
+  padding: 35px;
+
+  color: #66758d;
+
+  background: white;
+
+  border-radius: 15px;
+
+  border: 1px solid var(--border);
+
+}
+
+
+/* =====================================================
    HOW IT WORKS
-========================================= */
+===================================================== */
 
 .how-section {
 
-  max-width: 1110px;
-
-  margin: 58px auto 0;
+  margin-top: 60px;
 
 }
+
 
 .steps {
 
@@ -721,11 +863,8 @@ nav a:hover {
 
 }
 
+
 .step {
-
-  min-height: 150px;
-
-  padding: 22px;
 
   background: white;
 
@@ -733,34 +872,38 @@ nav a:hover {
 
   border-radius: 16px;
 
-  box-shadow:
-    0 4px 14px rgba(20,40,80,.04);
+  padding: 25px;
 
 }
+
 
 .number {
 
   color: var(--blue);
 
-  font-size: 25px;
+  font-size: 28px;
 
-  font-weight: bold;
+  font-weight: 800;
 
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
 }
+
 
 .step h3 {
 
-  color: var(--dark);
+  color: #102858;
+
+  font-size: 18px;
 
 }
 
+
 .step p {
 
-  margin-top: 8px;
+  margin-top: 10px;
 
-  color: var(--gray);
+  color: #66758d;
 
   font-size: 14px;
 
@@ -769,31 +912,49 @@ nav a:hover {
 }
 
 
-/* =========================================
+/* =====================================================
    FOOTER
-========================================= */
+===================================================== */
 
 footer {
 
-  margin-top: 35px;
+  background: #102858;
 
-  padding: 32px 20px;
+  color: #dce6f8;
+
+  padding: 28px 20px;
 
   text-align: center;
 
-  background: #142b55;
+}
 
-  color: #dce5f4;
+
+.footer-links {
+
+  margin-bottom: 16px;
 
 }
 
-footer h2 {
+
+.footer-links a {
+
+  color: #dce6f8;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  margin: 0 9px;
+
+}
+
+
+.footer-links a:hover {
 
   color: white;
 
-  margin: 14px 0 8px;
-
 }
+
 
 footer p {
 
@@ -801,28 +962,19 @@ footer p {
 
 }
 
-footer a {
 
-  color: white;
-
-  text-decoration: none;
-
-  font-size: 13px;
-
-  margin: 0 7px;
-
-}
-
-
-/* =========================================
+/* =====================================================
    MODAL
-========================================= */
+===================================================== */
 
 .modal {
 
   position: fixed;
 
   inset: 0;
+
+  background:
+    rgba(5,15,35,0.60);
 
   display: none;
 
@@ -832,17 +984,17 @@ footer a {
 
   padding: 15px;
 
-  background: rgba(0,0,0,.55);
-
   z-index: 100;
 
 }
+
 
 .modal.show {
 
   display: flex;
 
 }
+
 
 .modal-box {
 
@@ -854,15 +1006,16 @@ footer a {
 
   overflow-y: auto;
 
-  position: relative;
-
-  padding: 25px;
-
   background: white;
 
   border-radius: 20px;
 
+  padding: 25px;
+
+  position: relative;
+
 }
+
 
 .close {
 
@@ -880,30 +1033,34 @@ footer a {
 
   cursor: pointer;
 
+  color: #475467;
+
 }
+
 
 .modal-box h2 {
 
-  color: var(--dark);
+  color: #102858;
 
-  margin-bottom: 9px;
+  margin-bottom: 10px;
 
 }
+
 
 .description {
 
   color: var(--gray);
 
-  font-size: 14px;
-
   line-height: 1.5;
+
+  font-size: 14px;
 
 }
 
 
-/* =========================================
-   UPLOAD
-========================================= */
+/* =====================================================
+   UPLOAD AREA
+===================================================== */
 
 .upload-area {
 
@@ -921,6 +1078,7 @@ footer a {
 
 }
 
+
 .upload-area.drag {
 
   border-color: var(--blue);
@@ -929,11 +1087,13 @@ footer a {
 
 }
 
+
 #fileInput {
 
   display: none;
 
 }
+
 
 .choose-btn {
 
@@ -955,6 +1115,7 @@ footer a {
 
 }
 
+
 .file-list {
 
   margin: 12px 0;
@@ -967,6 +1128,7 @@ footer a {
 
 }
 
+
 .page-options {
 
   display: none;
@@ -974,6 +1136,7 @@ footer a {
   margin-bottom: 15px;
 
 }
+
 
 .page-options input {
 
@@ -988,6 +1151,7 @@ footer a {
   outline: none;
 
 }
+
 
 .process-btn {
 
@@ -1011,13 +1175,15 @@ footer a {
 
 }
 
+
 .process-btn:disabled {
 
-  opacity: .5;
+  opacity: 0.5;
 
   cursor: not-allowed;
 
 }
+
 
 .progress {
 
@@ -1025,15 +1191,16 @@ footer a {
 
   height: 10px;
 
-  margin-top: 15px;
-
   background: #e8edf5;
 
   border-radius: 20px;
 
+  margin-top: 15px;
+
   overflow: hidden;
 
 }
+
 
 .progress-bar {
 
@@ -1043,9 +1210,10 @@ footer a {
 
   background: var(--blue);
 
-  transition: .4s;
+  transition: 0.4s;
 
 }
+
 
 .result {
 
@@ -1065,38 +1233,25 @@ footer a {
 
 }
 
+
 .warning {
 
   margin-top: 15px;
 
-  color: var(--gray);
-
   font-size: 12px;
+
+  color: var(--gray);
 
   line-height: 1.5;
 
 }
 
 
-/* =========================================
+/* =====================================================
    MOBILE
-========================================= */
+===================================================== */
 
-@media(max-width: 800px) {
-
-  header {
-
-    height: 68px;
-
-    padding: 0 18px;
-
-  }
-
-  .logo {
-
-    font-size: 27px;
-
-  }
+@media(max-width: 850px) {
 
   nav {
 
@@ -1104,17 +1259,20 @@ footer a {
 
   }
 
+
   .hero {
 
-    padding: 43px 15px 30px;
+    padding: 38px 15px 32px;
 
   }
+
 
   .hero h1 {
 
-    font-size: 30px;
+    font-size: 31px;
 
   }
+
 
   .hero p {
 
@@ -1122,17 +1280,6 @@ footer a {
 
   }
 
-  .container {
-
-    padding: 28px 12px 40px;
-
-  }
-
-  .title {
-
-    font-size: 29px;
-
-  }
 
   .featured-tool {
 
@@ -1140,35 +1287,24 @@ footer a {
 
     align-items: stretch;
 
-    padding: 23px;
-
-    margin-top: 25px;
+    padding: 24px;
 
   }
+
 
   .featured-content {
 
     align-items: flex-start;
 
-    gap: 18px;
-
   }
 
-  .featured-icon {
-
-    width: 80px;
-
-    height: 80px;
-
-    font-size: 40px;
-
-  }
 
   .featured-text h3 {
 
-    font-size: 22px;
+    font-size: 25px;
 
   }
+
 
   .featured-button {
 
@@ -1176,11 +1312,13 @@ footer a {
 
   }
 
+
   .tools-grid {
 
     grid-template-columns: 1fr;
 
   }
+
 
   .steps {
 
@@ -1190,23 +1328,132 @@ footer a {
 
 }
 
-@media(max-width: 450px) {
+
+@media(max-width: 600px) {
+
+  header {
+
+    height: 68px;
+
+    padding: 0 28px;
+
+  }
+
+
+  .logo {
+
+    font-size: 30px;
+
+  }
+
+
+  .container {
+
+    padding: 30px 20px 45px;
+
+  }
+
+
+  .title {
+
+    font-size: 32px;
+
+  }
+
+
+  .subtitle {
+
+    font-size: 16px;
+
+  }
+
+
+  .search-box {
+
+    height: 58px;
+
+  }
+
+
+  .search-icon {
+
+    width: 40px;
+
+  }
+
+
+  .search-box input {
+
+    font-size: 14px;
+
+  }
+
+
+  .search-box button {
+
+    padding: 0 18px;
+
+  }
+
 
   .featured-content {
 
     flex-direction: column;
 
-  }
-
-  .hero h1 {
-
-    font-size: 28px;
+    gap: 20px;
 
   }
 
-  .search-box button {
 
-    padding: 0 15px;
+  .featured-icon {
+
+    width: 100px;
+
+    height: 100px;
+
+  }
+
+
+  .featured-text h3 {
+
+    font-size: 25px;
+
+  }
+
+
+  .featured-text p {
+
+    font-size: 15px;
+
+  }
+
+
+  .filters {
+
+    gap: 10px;
+
+  }
+
+
+  .filter {
+
+    padding: 11px 20px;
+
+  }
+
+
+  .tool-card {
+
+    min-height: 190px;
+
+  }
+
+
+  .footer-links a {
+
+    display: inline-block;
+
+    margin: 5px 7px;
 
   }
 
@@ -1220,15 +1467,16 @@ footer a {
 <body>
 
 
-<!-- ======================================
+<!-- =====================================================
      HEADER
-====================================== -->
+===================================================== -->
 
 <header>
 
   <div class="logo">
     PDF<span>Setu</span>
   </div>
+
 
   <nav>
 
@@ -1248,14 +1496,19 @@ footer a {
       Edit
     </a>
 
+    <a onclick="showCategory('Security')">
+      Security
+    </a>
+
   </nav>
 
 </header>
 
 
-<!-- ======================================
+
+<!-- =====================================================
      HERO
-====================================== -->
+===================================================== -->
 
 <section class="hero">
 
@@ -1263,19 +1516,27 @@ footer a {
     Every PDF task, made simple.
   </h1>
 
+
   <p>
-    Merge, split, convert, organize and manage
-    your PDF files with one simple and
-    professional workspace.
+    Merge, split, convert, organize and manage your PDF files
+    with one simple and professional workspace.
   </p>
 
+
   <div class="search-box">
+
+    <div class="search-icon">
+      ⌕
+    </div>
+
 
     <input
       type="text"
       id="search"
       placeholder="Search a tool... e.g. Merge PDF"
-      oninput="renderTools()">
+      oninput="renderTools()"
+    >
+
 
     <button onclick="renderTools()">
       Search
@@ -1286,22 +1547,12 @@ footer a {
 </section>
 
 
-<!-- ======================================
+
+<!-- =====================================================
      MAIN
-====================================== -->
+===================================================== -->
 
-<main
-  class="container"
-  id="tools">
-
-
-  <h2 class="title">
-    PDF Tools
-  </h2>
-
-  <p class="subtitle">
-    Choose a tool and start working with your files.
-  </p>
+<main class="container" id="tools">
 
 
   <!-- FEATURED TOOL -->
@@ -1310,9 +1561,11 @@ footer a {
 
     <div class="featured-content">
 
+
       <div class="featured-icon">
         📷
       </div>
+
 
       <div class="featured-text">
 
@@ -1320,9 +1573,11 @@ footer a {
           Exam Photo & Signature
         </h3>
 
+
         <p>
-          Photo और Signature को popular exams
-          की requirements के अनुसार तैयार करें।
+          Prepare your photo and signature according to
+          exam requirements. Select your exam and set
+          your image easily.
         </p>
 
       </div>
@@ -1334,11 +1589,25 @@ footer a {
       href="photo-sign-tool.html"
       class="featured-button">
 
-      Open Tool
-
+      Open Tool →
+      
     </a>
 
   </div>
+
+
+
+  <!-- PDF TOOLS TITLE -->
+
+  <h2 class="title">
+    PDF Tools
+  </h2>
+
+
+  <p class="subtitle">
+    Choose a tool and start working with your files.
+  </p>
+
 
 
   <!-- FILTERS -->
@@ -1353,6 +1622,7 @@ footer a {
 
     </button>
 
+
     <button
       class="filter"
       onclick="setCategory('Organize', this)">
@@ -1360,6 +1630,7 @@ footer a {
       Organize
 
     </button>
+
 
     <button
       class="filter"
@@ -1369,6 +1640,7 @@ footer a {
 
     </button>
 
+
     <button
       class="filter"
       onclick="setCategory('Edit', this)">
@@ -1376,6 +1648,7 @@ footer a {
       Edit
 
     </button>
+
 
     <button
       class="filter"
@@ -1388,12 +1661,15 @@ footer a {
   </div>
 
 
-  <!-- TOOLS -->
+
+  <!-- IMPORTANT:
+       ALL PDF TOOLS ARE GENERATED HERE -->
 
   <div
     class="tools-grid"
     id="toolsGrid">
   </div>
+
 
 
   <!-- HOW IT WORKS -->
@@ -1404,7 +1680,9 @@ footer a {
       How PDFSetu works
     </h2>
 
+
     <div class="steps">
+
 
       <div class="step">
 
@@ -1417,11 +1695,11 @@ footer a {
         </h3>
 
         <p>
-          Select the PDF task you want
-          to perform.
+          Select the PDF task you want to perform.
         </p>
 
       </div>
+
 
 
       <div class="step">
@@ -1441,6 +1719,7 @@ footer a {
       </div>
 
 
+
       <div class="step">
 
         <div class="number">
@@ -1452,64 +1731,67 @@ footer a {
         </h3>
 
         <p>
-          Process your files and download
-          the result.
+          Process your files and download the result.
         </p>
 
       </div>
+
 
     </div>
 
   </section>
 
-
 </main>
 
 
-<!-- ======================================
+
+<!-- =====================================================
      FOOTER
-====================================== -->
+===================================================== -->
 
 <footer>
 
-  <a href="about.html">
-    About Us
-  </a>
+  <div class="footer-links">
 
-  <a href="contact.html">
-    Contact Us
-  </a>
+    <a href="about.html">
+      About Us
+    </a>
 
-  <a href="terms.html">
-    Terms & Conditions
-  </a>
+    |
 
-  <h2>
-    PDFSetu
-  </h2>
+    <a href="contact.html">
+      Contact Us
+    </a>
 
-  <p>
-    Smart PDF Tools • Simple • Fast • Mobile Friendly
-  </p>
+    |
 
-  <br>
+    <a href="terms.html">
+      Terms & Conditions
+    </a>
+
+  </div>
+
 
   <p>
     © 2026 PDFSetu
   </p>
 
+
 </footer>
 
 
-<!-- ======================================
+
+<!-- =====================================================
      TOOL MODAL
-====================================== -->
+===================================================== -->
 
 <div
   class="modal"
   id="modal">
 
+
   <div class="modal-box">
+
 
     <button
       class="close"
@@ -1524,23 +1806,28 @@ footer a {
       Tool
     </h2>
 
+
     <p
       class="description"
       id="toolDescription">
     </p>
 
 
+
     <div
       class="upload-area"
       id="uploadArea">
+
 
       <div style="font-size:40px">
         📄
       </div>
 
+
       <h3>
         Drop files here
       </h3>
+
 
       <p class="description">
         or choose files from your device
@@ -1564,16 +1851,19 @@ footer a {
     </div>
 
 
+
     <div
       class="page-options"
       id="pageOptions">
 
+
       <input
         type="text"
-        id="pageInput"
-        placeholder="Example: 1-3, 5, 8-10">
+        placeholder="Example: 1-3, 5, 8-10"
+        id="pageInput">
 
     </div>
+
 
 
     <div
@@ -1583,6 +1873,7 @@ footer a {
       No files selected
 
     </div>
+
 
 
     <button
@@ -1596,9 +1887,11 @@ footer a {
     </button>
 
 
+
     <div
       class="progress"
       id="progress">
+
 
       <div
         class="progress-bar"
@@ -1606,6 +1899,7 @@ footer a {
       </div>
 
     </div>
+
 
 
     <div
@@ -1619,153 +1913,14 @@ footer a {
       id="warning">
     </div>
 
+
   </div>
 
 </div>
 
 
+
 <script>
 
-/* =========================================
-   PDF TOOLS DATA
-========================================= */
-
-const tools = [
-
-  {
-    name: "Merge PDF",
-    description:
-      "Combine multiple PDF files into one document.",
-    category: "Organize",
-    icon: "📎",
-    id: "merge",
-    page: "merge-pdf.html"
-  },
-
-  {
-    name: "Split PDF",
-    description:
-      "Split a PDF into selected page ranges.",
-    category: "Organize",
-    icon: "✂️",
-    id: "split",
-    page: "split-pdf.html"
-  },
-
-  {
-    name: "Compress PDF",
-    description:
-      "Reduce the size of your PDF file.",
-    category: "Organize",
-    icon: "🗜️",
-    id: "compress",
-    page: "compress-pdf.html"
-  },
-
-  {
-    name: "Delete Pages",
-    description:
-      "Remove selected pages from your PDF.",
-    category: "Organize",
-    icon: "🗑️",
-    id: "delete"
-  },
-
-  {
-    name: "Extract Pages",
-    description:
-      "Extract selected pages into a new PDF.",
-    category: "Organize",
-    icon: "📤",
-    id: "extract"
-  },
-
-  {
-    name: "Rotate PDF",
-    description:
-      "Rotate pages inside your PDF.",
-    category: "Organize",
-    icon: "🔄",
-    id: "rotate"
-  },
-
-  {
-    name: "Reorder Pages",
-    description:
-      "Change the order of PDF pages.",
-    category: "Organize",
-    icon: "↕️",
-    id: "reorder"
-  },
-
-  {
-    name: "Image to PDF",
-    description:
-      "Convert images into a PDF document.",
-    category: "Convert",
-    icon: "🖼️",
-    id: "imageToPdf",
-    page: "image-to-pdf.html"
-  },
-
-  {
-    name: "PDF to Image",
-    description:
-      "Convert PDF pages into images.",
-    category: "Convert",
-    icon: "📸",
-    id: "pdfToImage"
-  },
-
-  {
-    name: "PDF to Word",
-    description:
-      "Convert PDF documents to editable Word files.",
-    category: "Convert",
-    icon: "📝",
-    id: "pdfToWord"
-  },
-
-  {
-    name: "Word to PDF",
-    description:
-      "Convert documents into PDF format.",
-    category: "Convert",
-    icon: "📃",
-    id: "wordToPdf"
-  },
-
-  {
-    name: "OCR PDF",
-    description:
-      "Extract text from scanned PDF documents.",
-    category: "Convert",
-    icon: "🔎",
-    id: "ocr"
-  },
-
-  {
-    name: "Add Watermark",
-    description:
-      "Add a text watermark to your PDF.",
-    category: "Edit",
-    icon: "💧",
-    id: "watermark"
-  },
-
-  {
-    name: "Add Page Numbers",
-    description:
-      "Insert page numbers into PDF pages.",
-    category: "Edit",
-    icon: "🔢",
-    id: "pageNumbers"
-  },
-
-  {
-    name: "Edit PDF",
-    description:
-      "Add text and other elements to your PDF.",
-    category: "Edit",
-    icon: "✏️",
-    id
+/* =====================================================
+   PD
