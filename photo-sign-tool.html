@@ -1041,10 +1041,22 @@ function selectType(type){
 
     if(!currentPreset){
 
-        uploadSection.style.display = "none";
+    uploadSection.style.display = "none";
 
-        return;
+    if(exam.value === "other"){
+
+        customSettings.style.display = "block";
+
+    }else{
+
+        customSettings.style.display = "none";
+
     }
+
+    return;
+}
+
+customSettings.style.display = "none";
 
 
     /*
