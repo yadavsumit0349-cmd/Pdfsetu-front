@@ -1040,7 +1040,10 @@ function showExam(){
     }
 
     const data = presets[value];
-
+if(!data){
+    console.error("Exam preset not found:", value);
+    return;
+    }
     toolSection.style.display = "block";
     examInfo.style.display = "block";
 
